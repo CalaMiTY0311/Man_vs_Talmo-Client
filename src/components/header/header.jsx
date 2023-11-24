@@ -1,53 +1,56 @@
-/* eslint-disable */
-import React, { useState } from 'react';
-import { HashLink as Link } from 'react-router-hash-link';
-import { Container, NavbarBrand, Navbar, Nav, NavItem, NavbarToggler, Collapse } from 'reactstrap';
-
-import logo from '../../assets/images/logos/white-text.png';
+import React from 'react';
 
 const Header = () => {
-    const [isOpen, setIsOpen] = useState(false);
-
-    const toggle = () => setIsOpen(!isOpen);
-
-    /*--------------------------------------------------------------------------------*/
-    /*To open NAVBAR in MOBILE VIEW                                                   */
-    /*--------------------------------------------------------------------------------*/
-
-    return (
-        <div className="topbar" id="top">
-            <div className="header6">
-                <Container className="po-relative">
-                    <Navbar className="navbar-expand-lg h6-nav-bar">
-                        {/* <NavbarBrand href="/"><img src={logo} alt="wrapkit" /></NavbarBrand> */}
-                        <NavbarToggler onClick={toggle}><span className="ti-menu"></span></NavbarToggler>
-                        <Collapse isOpen={isOpen} navbar className="hover-dropdown font-14 justify-content-end" id="h6-info">
-                            <Nav navbar className="ms-auto">
-                                {/* <NavItem>
-                                    <Link className="btn btn-success-gradiant font-14" to="/">
-                                        테스트하러 가기
-                                    </Link>
-                                </NavItem> */}
-                                {/* <NavItem>
-                                    <Link className="nav-link" to="/components">
-                                        Components
-                                    </Link>
-                                </NavItem>
-                                <NavItem>
-                                    <Link className="nav-link" to="/custom-components">
-                                        Custom-Components
-                                    </Link>
-                                </NavItem> */}
-                            </Nav>
-                            {/* <div className="act-buttons">
-                                <Link to="/coming" className="btn btn-success-gradiant font-14">Upgrade To Pro</Link>
-                            </div> */}
-                        </Collapse>
-                    </Navbar>
-                </Container>
-            </div>
+  return (
+    <div style={headerContainerStyle}>
+      <header style={headerStyle}>
+        {/* 왼쪽에 달걀과 우는 사람 이모지, 가운데에 공간, 오른쪽에 홈으로 돌아가는 링크 */}
+        <div style={leftSectionStyle}>
+          🥚 😢
         </div>
-    );
+        <div style={centerSectionStyle}>Center</div>
+        <div style={rightSectionStyle}>
+          <a href="/" style={linkStyle}>
+            Home
+          </a>
+        </div>
+      </header>
+    </div>
+  );
+};
 
-}
+// 스타일 객체 정의
+const headerContainerStyle = {
+  width: '40%',
+  margin: '0 auto',
+  backgroundColor: 'grey',
+  padding: '10px',
+};
+
+const headerStyle = {
+  display: 'flex',
+  justifyContent: 'space-between',
+};
+
+const leftSectionStyle = {
+  display: 'flex',
+  alignItems: 'center', // 세로 중앙 정렬
+  fontSize: '24px', // 이모지 크기 조절
+};
+
+const centerSectionStyle = {
+  color: 'white',
+  // 추가적인 스타일 정의
+};
+
+const rightSectionStyle = {
+  color: 'white',
+  margin: '0 10px',
+};
+
+const linkStyle = {
+  color: 'white',
+  textDecoration: 'none', // 링크에 밑줄 제거
+};
+
 export default Header;

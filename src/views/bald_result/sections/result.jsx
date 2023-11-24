@@ -18,18 +18,14 @@ import not_safe_img from '../../../assets/images/bald_result_img/not_safe/img.jp
 import warning_img from '../../../assets/images/bald_result_img/warning/img.jpg';
 import bald_img from '../../../assets/images/bald_result_img/bald/img.jpg';
 
-const ResultContainer = styled.div`
-  border-left: 2px solid #000;
-  border-right: 2px solid #000;
-  padding: 20px;
-  margin-left: 500px; /* 왼쪽에 100px 여백 추가 */
-  margin-right: 500px; /* 오른쪽에 100px 여백 추가 */
-`;
-
 const FlexContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+
+  @media (max-width: 768px) {
+    // 작은 화면에 대한 스타일 추가
+  }
 `;
 
 const GridContainer = styled.div`
@@ -42,7 +38,7 @@ const GridContainer = styled.div`
 `;
 
 const URLShareButton = styled.button`
-  width: 48px;
+  width: 100%;
   height: 48px;
   color: white;
   border-radius: 24px;
@@ -51,6 +47,7 @@ const URLShareButton = styled.button`
   font-size: 18px;
   cursor: pointer;
   background-color: #7362ff;
+
   &:hover {
     background-color: #a99fee;
   }
@@ -61,9 +58,14 @@ const KakaoShareButton = styled.a`
 `;
 
 const KakaoIcon = styled.img`
-  width: 48px;
+  width: 100%;
   height: 48px;
   border-radius: 24px;
+`;
+
+const Img = styled.img`
+  max-width: 100%;
+  height: auto;
 `;
 
 const Result = () => {
@@ -73,6 +75,7 @@ const Result = () => {
 
   const [resultPredict, setresultPredict] = useState(null);
   const [resultMessage, setresultMessage] = useState(null);
+
   let imgPath = useRef('');
 
   const data = JSON.parse(dataParam);
@@ -80,52 +83,37 @@ const Result = () => {
   data.weight = parseFloat(data.weight);
   data.height = parseFloat(data.height);
 
-  // for (const key in data) {
-  //   if (data.hasOwnProperty(key)) {
-  //     console.log(`Key: ${key}, Value: ${data[key]}, Type: ${typeof data[key]}`);
-  //   }
-  // }
-
   useEffect(() => {
     axios.post('http://localhost:8000/bald_persent_predict', data)
       .then(response => {
         const resultPredict = Math.floor(parseInt(response.data.predict * 100));
         setresultPredict(resultPredict);
 
-        // console.log(response.data)
+        let message = '';
 
         if (resultPredict <= 25) {
           imgPath.current = very_safe_img;
-          var resultMessage = '지금 탈모갤로 놀러가 비틱질을 해보아요'
-          setresultMessage(resultMessage)
-
+          message = '놀리러 가야겠지?ㅋㅋㅋ';
         } else if (resultPredict <= 50) {
           imgPath.current = just_safe_img;
-          var resultMessage = '아직 사소해 ㄱㅊㄱㅊ'
-          setresultMessage(resultMessage)
-
+          message = '아직 사소해';
         } else if (resultPredict <= 75) {
           imgPath.current = not_safe_img;
-          var resultMessage = '슬슬... 관리해야겠지?'
-          setresultMessage(resultMessage)
-
+          message = '관리해야겠지?ㅋㅋ';
         } else if (resultPredict <= 100) {
           imgPath.current = warning_img;
-          var resultMessage = '어라 왜 눈물이?..'
-          setresultMessage(resultMessage)
-
+          message = '어?? 이미?..';
         } else {
           imgPath.current = bald_img;
-          var resultMessage = '이미 문어대가리아님? 이거 왜 했음'
-          setresultMessage(resultMessage)
-
+          message = '문어님 왜 오신거에요';
         }
 
+        setresultMessage(message);
       })
       .catch(error => {
-        console.log('error:', error)
-      })
-  }, [data])
+        console.log('error:', error);
+      });
+  }, [data]);
 
   const currentUrl = window.location.href;
 
@@ -133,7 +121,7 @@ const Result = () => {
     const kakaoScript = document.createElement('script');
     kakaoScript.src = 'https://developers.kakao.com/sdk/js/kakao.js';
     kakaoScript.onload = () => {
-      window.Kakao.init('KEY')
+      window.Kakao.init('KEY');
     };
     document.head.appendChild(kakaoScript);
   }, []);
@@ -145,8 +133,8 @@ const Result = () => {
         container: '#kakao-share-button',
         objectType: 'feed',
         content: {
-          title: 'Baldness Result',
-          description: `Result: ${resultPredict}% - ${resultMessage}`,
+          title: '탈모 결과',
+          description: `결과: ${resultPredict}% - ${resultMessage}`,
           imageUrl: imgPath.current,
           link: {
             mobileWebUrl: window.location.href,
@@ -154,35 +142,32 @@ const Result = () => {
         },
       });
     }
-  }, [resultPredict, resultMessage])
+  }, [resultPredict, resultMessage]);
 
   return (
     <div>
-      <ResultContainer>
-        <div className="spacer" id="imgs-component">
-          <Container>
-            <Row className="justify-content-center">
-              <Col md="7" className="text-center">
-                <h3 className="title font-bold">나의 탈모 위험도는??</h3>
-                <h4 className="title font-bold">{resultMessage}</h4>
-                <p className="font-bold">현재 탈모 위험도 {resultPredict}%</p>
-              </Col>
-            </Row>
-            <Row>
-              <Col lg="12" className="text-center m-b-30">
-                <img src={imgPath.current} alt="img" className="img-rounded" width="550" />
-                <br />
-                <h6 className="card-subtitle"><code>확률 낮은</code> 머신러닝이니까 너무 믿지는 마셈</h6>
-                <Button color="link" href="https://www.kaggle.com/datasets/itsnahm/baldness-probability">학습시킨 데이터 세트 링크(Kaggle)</Button>
-                <p className="m-t-15 m-b-0"></p>
-                <div className="act-buttons">
-                  <Link to="/test" className="btn btn-success-gradiant font-14">다시 테스트 하러가기</Link>
-                </div>
-              </Col>
-            </Row>
-          </Container>
-        </div>
-      
+        <Container>
+          <Row className="justify-content-center">
+            <Col md="7" className="text-center">
+              <h3 className="title font-bold">나의 탈모 위험도는??</h3>
+              <h4 className="title font-bold">{resultMessage}</h4>
+              <p className="font-bold">현재 탈모 위험도 {resultPredict}%</p>
+            </Col>
+          </Row>
+          <Row>
+            <Col lg="12" className="text-center m-b-30">
+              <Img src={imgPath.current} alt="img" className="img-rounded" />
+              <br />
+              <h6 className="card-subtitle"><code>확률 낮은</code> 머신러닝이니까 너무 믿지는 마셈</h6>
+              <Button color="link" href="https://www.kaggle.com/datasets/itsnahm/baldness-probability">학습시킨 데이터 세트 링크(Kaggle)</Button>
+              <p className="m-t-15 m-b-0"></p>
+              <div className="act-buttons">
+                <Link to="/test" className="btn btn-success-gradiant font-14">다시 테스트 하러가기</Link>
+              </div>
+            </Col>
+          </Row>
+        </Container>
+
       <FlexContainer>
         <h2>친구들과 공유하기</h2>
         <br />
@@ -201,7 +186,6 @@ const Result = () => {
           </KakaoShareButton>
         </GridContainer>
       </FlexContainer>
-      </ResultContainer>
     </div>
   );
 }
