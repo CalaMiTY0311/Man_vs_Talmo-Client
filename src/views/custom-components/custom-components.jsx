@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 
 // core components
-import Header from "../../components/header/header.jsx";
+import Header from "../../components/header/header_ex.jsx";
 import HeaderBanner2 from "../../components/banner2/banner2.jsx";
 import Footer from "../../components/footer/footer.jsx";
 

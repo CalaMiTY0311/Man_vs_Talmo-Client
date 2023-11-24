@@ -29,9 +29,7 @@ const MainPage = () => {
     return (
         <Container fluid>
             <Row>
-                {/* 왼쪽 영역 (4분의 3) */}
                 <Col lg="9" style={{ minHeight: '100vh', position: 'relative', overflow: 'hidden' }}>
-                    {/* 이미지 및 가운데 정렬 */}
                     <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%' }}>
                         <img
                             src={images[currentImageIndex]}
@@ -42,7 +40,6 @@ const MainPage = () => {
                     </div>
                 </Col>
 
-                {/* 오른쪽 영역 (4분의 1) */}
                 <Col lg="3" style={{ minHeight: '100vh' }}>
                     <div className="d-flex flex-column justify-content-center align-items-center h-100">
                         <h1 className="title font-50">Man vs 탈모</h1>

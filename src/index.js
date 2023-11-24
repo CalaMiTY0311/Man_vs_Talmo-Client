@@ -10,6 +10,7 @@ import {
   BrowserRouter
 } from "react-router-dom";
 import Components from "./views/components/components.jsx";
+import CustomComponents from "./views/custom-components/custom-components.jsx";
 import Main from "./views/main/main.jsx";
 import Test from "./views/test/test.jsx";
 import Result from "./views/bald_result/bald_result.jsx"
@@ -21,6 +22,7 @@ root.render(
   <BrowserRouter history={hist}>
     <Routes>
       <Route path="/components" element={<Components />} />
+      <Route path="/custom-components" element={<CustomComponents />} />
       <Route path="/" element={<Main />} />
       <Route path="/test" element={<Test/>}/>
        
