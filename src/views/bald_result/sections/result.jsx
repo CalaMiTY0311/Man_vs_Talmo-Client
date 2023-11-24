@@ -149,7 +149,6 @@ const Result = () => {
         <Container>
           <Row className="justify-content-center">
             <Col md="7" className="text-center">
-              <h3 className="title font-bold">나의 탈모 위험도는??</h3>
               <h4 className="title font-bold">{resultMessage}</h4>
               <p className="font-bold">현재 탈모 위험도 {resultPredict}%</p>
             </Col>

@@ -4,16 +4,17 @@ const Header = () => {
   return (
     <div style={headerContainerStyle}>
       <header style={headerStyle}>
-        {/* 왼쪽에 달걀과 우는 사람 이모지, 가운데에 공간, 오른쪽에 홈으로 돌아가는 링크 */}
         <div style={leftSectionStyle}>
           🥚 😢
         </div>
-        <div style={centerSectionStyle}>Center</div>
-        <div style={rightSectionStyle}>
+        {/* <h2 style={centerSectionStyle}>
+          Man VS 탈모
+        </h2> */}
+        <h4 style={rightSectionStyle}>
           <a href="/" style={linkStyle}>
             Home
           </a>
-        </div>
+        </h4>
       </header>
     </div>
   );
@@ -23,34 +24,36 @@ const Header = () => {
 const headerContainerStyle = {
   width: '40%',
   margin: '0 auto',
-  backgroundColor: 'grey',
-  padding: '10px',
+  backgroundColor: '#f0f0f0',
+  padding: '20px',
 };
 
 const headerStyle = {
   display: 'flex',
   justifyContent: 'space-between',
+  alignItems: 'center', // 세로 중앙 정렬 추가
 };
 
 const leftSectionStyle = {
   display: 'flex',
-  alignItems: 'center', // 세로 중앙 정렬
-  fontSize: '24px', // 이모지 크기 조절
+  alignItems: 'center',
+  fontSize: '24px',
 };
 
-const centerSectionStyle = {
-  color: 'white',
-  // 추가적인 스타일 정의
-};
+// const centerSectionStyle = {
+//   color: 'black',
+//   // 추가적인 스타일 정의
+// };
 
 const rightSectionStyle = {
-  color: 'white',
+  color: 'black',
   margin: '0 10px',
 };
 
 const linkStyle = {
-  color: 'white',
-  textDecoration: 'none', // 링크에 밑줄 제거
+  color: 'black',
+  textDecoration: 'none',
+  lineHeight: '0',
 };
 
 export default Header;

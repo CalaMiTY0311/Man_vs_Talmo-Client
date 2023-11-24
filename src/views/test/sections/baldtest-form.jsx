@@ -2,15 +2,6 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button, Container, Row, Col } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import styled from 'styled-components';
-
-const ResultContainer = styled.div`
-  border-left: 2px solid #000;
-  border-right: 2px solid #000;
-  padding: 462px;
-  margin-left: 455px; /* 왼쪽에 100px 여백 추가 */
-  margin-right: 455px; /* 오른쪽에 100px 여백 추가 */
-`;
 
 const BaldForm = () => {
   const navigate = useNavigate();
@@ -79,7 +70,6 @@ const BaldForm = () => {
   };
 
   return (
-    <ResultContainer>
     <Container>
       <Row className="justify-content-center">
         <Col md="7" className="text-center" style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)' }}>
@@ -157,11 +147,11 @@ const BaldForm = () => {
     <br/>
     <input type="number" style={{ width: '400px', height: '50px' }} placeholder="몸무게" value={weight} onChange={(e) => setWeight(e.target.value)} />
     <br/>
-    <Button variant="outline-primary" className="btn btn-block" onClick={nextStep}>
-      다음
-    </Button>
     <Button variant="outline-secondary" className="btn btn-block" onClick={prevStep}>
       이전
+    </Button>
+    <Button variant="outline-primary" className="btn btn-block" onClick={nextStep}>
+      다음
     </Button>
   </>
 )}
@@ -224,7 +214,6 @@ const BaldForm = () => {
         </Col>
       </Row>
     </Container>
-    </ResultContainer>
   );
 };
 
