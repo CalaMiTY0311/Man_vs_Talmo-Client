@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { Button, Container, Row, Col } from 'react-bootstrap';
+import { useNavigate, Link } from 'react-router-dom';
+import { Button, Container, Row, Col, Modal, ModalHeader, ModalBody, ModalFooter, BreadcrumbItem } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 const BaldForm = () => {
@@ -16,6 +16,8 @@ const BaldForm = () => {
   const [height, setHeight] = useState('');
   const [is_smoker, setIs_smoker] = useState(null);
   const [stress, setStress] = useState('');
+
+  const [modal, setModal] = useState(true);
 
   const formData = {
     age,
@@ -73,6 +75,19 @@ const BaldForm = () => {
     <Container>
       <Row className="justify-content-center">
         <Col md="7" className="text-center" style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)' }}>
+        <Modal size="lg" show={modal} onHide={() => setModal(false)} backdrop="static" keyboard={false}>
+            <ModalHeader></ModalHeader>
+            <ModalBody>
+              이 테스트는 Kaggle에서 수집한 데이터셋을 활용하여 머신 러닝 결과를 제공합니다. 하지만, 실제 탈모 여부를 정확하게 판단하기 위해서는 여러 가지 복잡한 요인을 고려해야 합니다. 테스트는 단순한 예측 도구로써 활용되며, 정확한 진단을 위해서는 전문가와의 상담이 필요합니다. 따라서 이 결과를 너무 신뢰하지 말고, 단순한 테스트로 간주하시기를 권장합니다.
+              <BreadcrumbItem color="link" href="https://www.kaggle.com/datasets/itsnahm/baldness-probability">데이터셋 출처 - (Kaggle)</BreadcrumbItem>
+            </ModalBody>
+            <ModalFooter>
+                <Button color="primary" onClick={() => setModal(false)}>테스트 하러가기</Button>{' '}
+              <Link to="/">
+              <Button color="secondary" onClick={() => setModal(false)}>Cancel</Button>
+              </Link>
+            </ModalFooter>
+          </Modal>
           {step === 1 && (
             <>
               <h1 className="title font-bold">본인의 나이를 입력해주세요</h1>

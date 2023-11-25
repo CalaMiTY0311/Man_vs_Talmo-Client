@@ -1,14 +1,24 @@
 import React, { useState, useEffect } from 'react';
-import { Container, Row, Col } from 'reactstrap';
+import { 
+    Button,
+    Container, Row, Col 
+} from 'reactstrap';
 import { Link } from 'react-router-dom';
 
 import img1 from '../../assets/images/main-page-img/img1.gif';
 import img2 from '../../assets/images/main-page-img/img2.gif';
 import img3 from '../../assets/images/main-page-img/img3.gif';
 
-const MainPage = () => {
+import styled from 'styled-components';
+
+const MainPage = (props) => {
+    const [modal, setModal] = useState(false);
     const images = [img1, img2, img3];
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
+    
+    const toggle = () => {
+        setModal(!modal);
+    }
 
     useEffect(() => {
         const imageChangeIntervals = [
@@ -26,7 +36,18 @@ const MainPage = () => {
         return () => clearInterval(intervalId);
     }, [currentImageIndex, images.length]);
 
+    const FlexContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  @media (max-width: 768px) {
+    // 작은 화면에 대한 스타일 추가
+  }
+`;
+
     return (
+        <FlexContainer>
         <Container fluid>
             <Row>
                 <Col lg="9" style={{ minHeight: '100vh', position: 'relative', overflow: 'hidden' }}>
@@ -42,18 +63,19 @@ const MainPage = () => {
 
                 <Col lg="3" style={{ minHeight: '100vh' }}>
                     <div className="d-flex flex-column justify-content-center align-items-center h-100">
-                        <h1 className="title font-50">Man vs 탈모</h1>
-                        <h4 className="subtitle font-light center">
+                        <h1 className="title font-14" style={{ fontSize: '2rem', textAlign: 'center' }}>🥚 Man vs 탈모😢</h1>
+                        <h4 className="subtitle font-light" style={{ textAlign: 'center', fontWeight: 'bold', color: 'black' }}>
                             8개의 질문을 가지고         <br />
                             자신의 탈모력을 테스트 해보고<br /> 지인들에게 기만을해보아요
                         </h4>
-                        <Link smooth to="/test" className="btn btn-md m-t-30 btn-info-gradiant font-14">
-                            테스트 시작하기
+                        <Link to="/test">
+                        <Button type="button" color="primary" onClick={toggle.bind(null)} style={{ width: '200px', height: '50px' }}>테스트 해볼까?</Button>
                         </Link>
                     </div>
                 </Col>
             </Row>
         </Container>
+        </FlexContainer>
     );
 };
 

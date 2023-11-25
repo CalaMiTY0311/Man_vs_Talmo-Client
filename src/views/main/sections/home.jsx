@@ -1,10 +1,10 @@
 import React from 'react';
 
-function Baldform ()  {
+function Home ()  {
     return (
       <div></div>
     );
 }
 
-export default Baldform;
+export default Home;
  
