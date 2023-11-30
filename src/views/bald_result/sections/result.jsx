@@ -10,6 +10,8 @@ import {
   TwitterIcon,
 } from 'react-share';
 import kakaoLogo from '../../../assets/images/logos/kakao-button.jpg';
+import { useScript } from "../../../hooks.js";
+
 import { Button, Container, Row, Col } from 'reactstrap';
 
 import very_safe_img from '../../../assets/images/bald_result_img/very_safe/img.jpg';
@@ -17,6 +19,7 @@ import just_safe_img from '../../../assets/images/bald_result_img/just_safe/img.
 import not_safe_img from '../../../assets/images/bald_result_img/not_safe/img.jpg';
 import warning_img from '../../../assets/images/bald_result_img/warning/img.jpg';
 import bald_img from '../../../assets/images/bald_result_img/bald/img.jpg';
+import share_img from '../../../assets/images/bald_result_img/img.jpg';
 
 const FlexContainer = styled.div`
   display: flex;
@@ -117,32 +120,46 @@ const Result = () => {
 
   const currentUrl = window.location.href;
 
+  const status = useScript("https://developers.kakao.com/sdk/js/kakao.js");
   useEffect(() => {
-    const kakaoScript = document.createElement('script');
-    kakaoScript.src = 'https://developers.kakao.com/sdk/js/kakao.js';
-    kakaoScript.onload = () => {
-      window.Kakao.init('KEY');
-    };
-    document.head.appendChild(kakaoScript);
-  }, []);
+		if (status === "ready" && window.Kakao) {
+			// 중복 initialization 방지
+			if (!window.Kakao.isInitialized()) {
+				// 두번째 step 에서 가져온 javascript key 를 이용하여 initialize
+				window.Kakao.init('NEED KEY')
+			}
+		}
+	}, [status]);	
 
-  useEffect(() => {
-    const { Kakao } = window;
-    if (Kakao) {
-      Kakao.Link.createDefaultButton({
-        container: '#kakao-share-button',
-        objectType: 'feed',
-        content: {
-          title: '탈모 결과',
-          description: `결과: ${resultPredict}% - ${resultMessage}`,
-          imageUrl: imgPath.current,
+  const handleKakaoButton = () => {
+    const currentUrl = window.location.href;
+
+    if (window.Kakao.isInitialized()) {
+    window.Kakao.Link.sendDefault({
+      objectType: 'feed',
+      content: {
+        title: '현재 나의 탈모위험도는?',
+        description:`${resultMessage}\n${resultPredict ? `현재 탈모 위험도: ${resultPredict}` : '탈모 위험도를 계산 중입니다.'}`,
+        // imageUrl: imgPath.current,
+        imageUrl: 'https://www.koreapas.com/bbs/data2/gofun/%C5%BB%B8%F0%B0%B63.jpg',
+        link: {
+          mobileWebUrl: currentUrl,
+          webUrl: currentUrl,
+        },
+      },
+      buttons: [
+        {
+          title: '링크 열기',
           link: {
-            mobileWebUrl: window.location.href,
+            mobileWebUrl: currentUrl,
+            webUrl: currentUrl,
           },
         },
-      });
+      ],
+      })
     }
-  }, [resultPredict, resultMessage]);
+  }
+
 
   return (
     <div>
@@ -181,7 +198,7 @@ const Result = () => {
             <URLShareButton>URL</URLShareButton>
           </CopyToClipboard>
           <KakaoShareButton>
-            <KakaoIcon id="kakao-share-button" src={kakaoLogo}></KakaoIcon>
+            <KakaoIcon id="kakao-share-button" src={kakaoLogo} onClick={handleKakaoButton}></KakaoIcon>
           </KakaoShareButton>
         </GridContainer>
       </FlexContainer>
