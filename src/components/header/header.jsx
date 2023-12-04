@@ -14,7 +14,8 @@ const Header = () => {
             <div className="header1 po-relative bg-dark" style={{ width: '40%', margin: '0 auto' }}>
                 <Container>
                     <Navbar className="navbar-expand-lg h2-nav">
-                        <NavbarBrand href="#">🥚 😢</NavbarBrand>
+                        <NavbarBrand style={{ color: '#ffffff' }}>🥚Man vs 탈모😢</NavbarBrand>
+                        {/* 🥚 😢 */}
                         <Nav navbar className="ms-auto mt-2 mt-lg-0">
                             <NavItem><a className="btn btn-outline-info" href="/">Home</a></NavItem>
                         </Nav>

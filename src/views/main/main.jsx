@@ -2,12 +2,16 @@ import React from "react";
 import PropTypes from "prop-types";
 
 // core components
-// import Header from "../../components/header/header.jsx";
-import MainPage from "../../components/main-page/main-page.jsx";
+import Header from "../../components/header/header.jsx";
+import Home from "./sections/home.jsx";
 
 const Main = () => {
     return (
-        <MainPage /> 
+        <div>
+            <Header />
+            <br /><br /><br />
+            <Home /> 
+        </div>
     );
 }
 

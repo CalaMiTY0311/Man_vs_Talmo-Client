@@ -5,11 +5,13 @@ import {
 } from 'reactstrap';
 import { Link } from 'react-router-dom';
 
-import img1 from '../../../assets/images/main-page-img/img1.gif';
-import img2 from '../../../assets/images/main-page-img/img2.gif';
-import img3 from '../../../assets/images/main-page-img/img3.gif';
+import img1 from '../../assets/images/main-page-img/img1.gif';
+import img2 from '../../assets/images/main-page-img/img2.gif';
+import img3 from '../../assets/images/main-page-img/img3.gif';
 
-const Home = (props) => {
+import styled from 'styled-components';
+
+const MainPage = (props) => {
     const [modal, setModal] = useState(false);
     const images = [img1, img2, img3];
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
@@ -33,6 +35,16 @@ const Home = (props) => {
         // 컴포넌트가 언마운트될 때 interval 해제
         return () => clearInterval(intervalId);
     }, [currentImageIndex, images.length]);
+
+    const FlexContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  @media (max-width: 768px) {
+    // 작은 화면에 대한 스타일 추가
+  }
+`;
 
     return (
         <div>
@@ -94,4 +106,4 @@ const Home = (props) => {
     );
 };
 
-export default Home;
+export default MainPage;

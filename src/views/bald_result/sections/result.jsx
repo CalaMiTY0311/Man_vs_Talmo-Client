@@ -19,7 +19,6 @@ import just_safe_img from '../../../assets/images/bald_result_img/just_safe/img.
 import not_safe_img from '../../../assets/images/bald_result_img/not_safe/img.jpg';
 import warning_img from '../../../assets/images/bald_result_img/warning/img.jpg';
 import bald_img from '../../../assets/images/bald_result_img/bald/img.jpg';
-import share_img from '../../../assets/images/bald_result_img/img.jpg';
 
 const FlexContainer = styled.div`
   display: flex;
@@ -87,6 +86,7 @@ const Result = () => {
   data.height = parseFloat(data.height);
 
   useEffect(() => {
+    
     axios.post('http://localhost:8000/bald_persent_predict', data)
       .then(response => {
         const resultPredict = Math.floor(parseInt(response.data.predict * 100));
@@ -126,7 +126,7 @@ const Result = () => {
 			// 중복 initialization 방지
 			if (!window.Kakao.isInitialized()) {
 				// 두번째 step 에서 가져온 javascript key 를 이용하여 initialize
-				window.Kakao.init('NEED KEY')
+				window.Kakao.init(process.env.REACT_APP_KAKAO_API_KEY)
 			}
 		}
 	}, [status]);	
@@ -167,23 +167,20 @@ const Result = () => {
           <Row className="justify-content-center">
             <Col md="7" className="text-center">
               <h4 className="title font-bold">{resultMessage}</h4>
-              <p className="font-bold">현재 탈모 위험도 {resultPredict}%</p>
+              <h3 className="font-bold">현재 탈모 위험도 {resultPredict}%</h3>
             </Col>
           </Row>
           <Row>
             <Col lg="12" className="text-center m-b-30">
-              <Img src={imgPath.current} alt="img" className="img-rounded" />
-              <br />
-              <h6 className="card-subtitle"><code>확률 낮은</code> 머신러닝이니까 너무 믿지는 마셈</h6>
-              <Button color="link" href="https://www.kaggle.com/datasets/itsnahm/baldness-probability">학습시킨 데이터 세트 링크(Kaggle)</Button>
-              <p className="m-t-15 m-b-0"></p>
-              <div className="act-buttons">
-                <Link to="/test" className="btn btn-success-gradiant font-14">다시 테스트 하러가기</Link>
-              </div>
+              <Img src={imgPath.current} alt="img" className="img-rounded" style={{ width: '500px', height: '450px' }}/>
+              <br /><br />
+              <Link to="/test">
+                <Button type="button" color="primary" style={{ width: '200px', height: '50px' }}>다시 테스트하기</Button>
+              </Link>
             </Col>
           </Row>
         </Container>
-
+      <br />
       <FlexContainer>
         <h2>친구들과 공유하기</h2>
         <br />
