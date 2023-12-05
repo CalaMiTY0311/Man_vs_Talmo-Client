@@ -13,7 +13,8 @@ const Home = (props) => {
     const [modal, setModal] = useState(false);
     const images = [img1, img2, img3];
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
-    
+    const [imgSize, setImgSize] = useState({ width: '100%', height: 'auto' });
+
     const toggle = () => {
         setModal(!modal);
     }
@@ -34,6 +35,24 @@ const Home = (props) => {
         return () => clearInterval(intervalId);
     }, [currentImageIndex, images.length]);
 
+    // Check screen width and set image size accordingly
+    useEffect(() => {
+        const handleResize = () => {
+            const width = window.innerWidth;
+            const height = width <= 768 ? 300 : 'auto';
+            setImgSize({ width: width <= 768 ? 300 : '100%', height });
+        };
+
+        // Initial check
+        handleResize();
+
+        // Event listener for window resize
+        window.addEventListener('resize', handleResize);
+
+        // Cleanup the event listener on component unmount
+        return () => window.removeEventListener('resize', handleResize);
+    }, []);
+
     return (
         <div>
             <Container>
@@ -42,8 +61,7 @@ const Home = (props) => {
                         <img
                             src={images[currentImageIndex]}
                             alt={`Image ${currentImageIndex + 1}`}
-                            // className="img-fluid"
-                            style={{ width: '540px', height: '322px', objectFit: 'cover', opacity: 0.7 }}
+                            style={imgSize}
                         />
                     </Col>
                     <Col lg="12" className="text-center m-b-30">
@@ -55,42 +73,13 @@ const Home = (props) => {
                                 자신의 탈모력을 테스트 해보고<br /> 지인들에게 기만을해보아요
                             </h4>
                             <Link to="/test">
-                            <Button type="button" color="primary" onClick={toggle.bind(null)} style={{ width: '200px', height: '50px' }}>테스트 해볼까?</Button>
+                                <Button type="button" color="primary" onClick={toggle.bind(null)} style={{ width: '200px', height: '50px' }}>테스트 해볼까?</Button>
                             </Link>
                         </div>
                     </Col>
                 </Row>
             </Container>
         </div>
-        // <FlexContainer>
-        // <Container fluid>
-        //     <Row>
-        //         <Col lg="7" style={{ minHeight: '100vh', position: 'relative', overflow: 'hidden' }}>
-        //             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%' }}>
-        //                 <img
-        //                     src={images[currentImageIndex]}
-        //                     alt={`Image ${currentImageIndex + 1}`}
-        //                     className="img-fluid"
-        //                     style={{ width: '100%', height: '100%', objectFit: 'cover', opacity: 0.7 }}
-        //                 />
-        //             </div>
-        //         </Col>
-
-        //         <Col lg="3" style={{ minHeight: '100vh' }}>
-        //             <div className="d-flex flex-column justify-content-center align-items-center h-100">
-        //                 <h1 className="title font-14" style={{ fontSize: '2rem', textAlign: 'center' }}>🥚 Man vs 탈모😢</h1>
-        //                 <h4 className="subtitle font-light" style={{ textAlign: 'center', fontWeight: 'bold', color: 'black' }}>
-        //                     8개의 질문을 가지고         <br />
-        //                     자신의 탈모력을 테스트 해보고<br /> 지인들에게 기만을해보아요
-        //                 </h4>
-        //                 <Link to="/test">
-        //                 <Button type="button" color="primary" onClick={toggle.bind(null)} style={{ width: '200px', height: '50px' }}>테스트 해볼까?</Button>
-        //                 </Link>
-        //             </div>
-        //         </Col>
-        //     </Row>
-        // </Container>
-        // </FlexContainer>
     );
 };
 

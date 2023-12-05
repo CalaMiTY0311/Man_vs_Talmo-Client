@@ -93,7 +93,7 @@ const BaldForm = () => {
               <h1 className="title font-bold">본인의 나이를 입력해주세요</h1>
               <h6 className="subtitle">부정확한 값을 입력하면 이상한 값이 나오니 조심해주세요.</h6>
               <br/>
-              <input type="number" style={{ width: '400px', height: '50px' }} placeholder="나이" value={age} onChange={(e) => setAge(e.target.value)} />
+              <input type="number" style={{ width: '300px', height: '50px' }} placeholder="나이" value={age} onChange={(e) => setAge(e.target.value)} />
               <br/>
               <Button variant="outline-primary" className="btn btn-block" onClick={nextStep}>
                 다음
@@ -160,7 +160,7 @@ const BaldForm = () => {
     <h1 className="title font-bold">몸무게</h1>
     <h6 className="subtitle" style={{ marginBottom: '15px' }}>몸무게</h6>
     <br/>
-    <input type="number" style={{ width: '400px', height: '50px' }} placeholder="몸무게" value={weight} onChange={(e) => setWeight(e.target.value)} />
+    <input type="number" style={{ width: '300px', height: '50px' }} placeholder="몸무게" value={weight} onChange={(e) => setWeight(e.target.value)} />
     <br/>
     <Button variant="outline-secondary" className="btn btn-block" onClick={prevStep}>
       이전
@@ -176,7 +176,7 @@ const BaldForm = () => {
     <h1 className="title font-bold">키</h1>
     <h6 className="subtitle" style={{ marginBottom: '15px' }}>키</h6>
     <br/>
-    <input type="number" style={{ width: '400px', height: '50px' }} placeholder="키" value={height} onChange={(e) => setHeight(e.target.value)} />
+    <input type="number" style={{ width: '300px', height: '50px' }} placeholder="키" value={height} onChange={(e) => setHeight(e.target.value)} />
     <br/>
     <Button variant="outline-secondary" className="btn btn-block" onClick={prevStep}>
       이전
@@ -212,7 +212,7 @@ const BaldForm = () => {
     <br/>
     <input
       type="number"
-      style={{ width: '400px', height: '50px' }}
+      style={{ width: '300px', height: '50px' }}
       placeholder="스트레스 수치"
       value={stress}
       onChange={(e) => setStress(e.target.value)}
