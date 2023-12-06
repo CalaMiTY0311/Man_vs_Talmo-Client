@@ -78,6 +78,9 @@ const Result = () => {
   const [resultPredict, setresultPredict] = useState(null);
   const [resultMessage, setresultMessage] = useState(null);
 
+  const [imgSize, setImgSize] = useState({ width: '500px', height: '450px' });
+
+
   let imgPath = useRef('');
 
   const data = JSON.parse(dataParam);
@@ -85,9 +88,25 @@ const Result = () => {
   data.weight = parseFloat(data.weight);
   data.height = parseFloat(data.height);
 
+  const handleResize = () => {
+    const width = window.innerWidth;
+    const height = width <= 768 ? 'auto' : '450px';
+    setImgSize({ width: '500px', height });
+  };
+
+  useEffect(() => {
+    handleResize(); // Initial check
+
+    // Event listener for window resize
+    window.addEventListener('resize', handleResize);
+
+    // Cleanup the event listener on component unmount
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
   useEffect(() => {
     
-    axios.post('http://localhost:8000/bald_persent_predict', data)
+    axios.post('https://man-vs-talmo-api.fly.dev//bald_persent_predict', data)
       .then(response => {
         const resultPredict = Math.floor(parseInt(response.data.predict * 100));
         setresultPredict(resultPredict);
@@ -123,9 +142,7 @@ const Result = () => {
   const status = useScript("https://developers.kakao.com/sdk/js/kakao.js");
   useEffect(() => {
 		if (status === "ready" && window.Kakao) {
-			// 중복 initialization 방지
 			if (!window.Kakao.isInitialized()) {
-				// 두번째 step 에서 가져온 javascript key 를 이용하여 initialize
 				window.Kakao.init(process.env.REACT_APP_KAKAO_API_KEY)
 			}
 		}
@@ -172,7 +189,7 @@ const Result = () => {
           </Row>
           <Row>
             <Col lg="12" className="text-center m-b-30">
-              <Img src={imgPath.current} alt="img" className="img-rounded" style={{ width: '500px', height: '450px' }}/>
+              <Img src={imgPath.current} alt="img" className="img-rounded" style= {imgSize}/>
               <br /><br />
               <Link to="/test">
                 <Button type="button" color="primary" style={{ width: '200px', height: '50px' }}>다시 테스트하기</Button>
