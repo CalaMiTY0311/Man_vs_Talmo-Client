@@ -110,6 +110,7 @@ const Result = () => {
       headers: {
         'Content-Type': 'application/json',
     },
+    timeout: 4000,
   })
       .then(response => {
         const resultPredict = Math.floor(parseInt(response.data.predict * 100));
