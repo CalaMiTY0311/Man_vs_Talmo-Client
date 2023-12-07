@@ -105,8 +105,12 @@ const Result = () => {
   }, []);
 
   useEffect(() => {
-    
-    axios.post('https://man-vs-talmo-api.fly.dev/bald_persent_predict', data)
+    axios.post('https://man-vs-talmo-api.fly.dev/bald_persent_predict', data,
+    {
+      headers: {
+        'Content-Type': 'application/json',
+    },
+  })
       .then(response => {
         const resultPredict = Math.floor(parseInt(response.data.predict * 100));
         setresultPredict(resultPredict);
@@ -129,7 +133,7 @@ const Result = () => {
           imgPath.current = bald_img;
           message = '문어님 왜 오신거에요';
         }
-
+        console.log("yes")
         setresultMessage(message);
       })
       .catch(error => {
