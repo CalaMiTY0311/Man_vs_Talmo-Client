@@ -132,6 +132,7 @@ const Result = () => {
         }
         console.log("yes")
         setresultMessage(message);
+        console.log(data)
       })
       .catch(error => {
         console.log('error:', error);
