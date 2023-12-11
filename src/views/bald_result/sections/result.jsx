@@ -105,7 +105,9 @@ const Result = () => {
   }, []);
 
   useEffect(() => {
-    axios.post('https://man-vs-talmo-api.fly.dev/bald_persent_predict', data)
+    axios.post('https://man-vs-talmo-api.fly.dev/bald_persent_predict', data, {
+      withCredentials: true
+    })
       .then(response => {
         const resultPredict = Math.floor(parseInt(response.data.predict * 100));
         setresultPredict(resultPredict);
