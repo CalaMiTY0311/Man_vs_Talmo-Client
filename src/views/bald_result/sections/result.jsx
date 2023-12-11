@@ -106,7 +106,11 @@ const Result = () => {
 
   useEffect(() => {
     axios.post('https://man-vs-talmo-api.fly.dev/bald_persent_predict', data, {
-      withCredentials: true
+      withCredentials: true,
+      headers: {
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': 'https://man-vs-talmo-client-he3s4xddp-shinis-projects.vercel.app', // 허용하려는 오리진으로 변경
+      },
     })
       .then(response => {
         const resultPredict = Math.floor(parseInt(response.data.predict * 100));
