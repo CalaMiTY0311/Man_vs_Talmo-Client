@@ -15,6 +15,10 @@ import Main from "./views/main/main.jsx";
 import Test from "./views/test/test.jsx";
 import Result from "./views/bald_result/bald_result.jsx"
 
+// import axios from 'axios';
+// // Axios의 전역 설정 변경
+// axios.defaults.withCredentials = true;
+
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
 var hist = createBrowserHistory();
