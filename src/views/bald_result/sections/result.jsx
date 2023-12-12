@@ -119,7 +119,7 @@ const Result = () => {
       .then(response => {
         const resultPredict = Math.floor(parseInt(response.data.predict * 100));
         setresultPredict(resultPredict);
-
+        console.log(resultPredict)
         let message = '';
 
         if (resultPredict <= 25) {
