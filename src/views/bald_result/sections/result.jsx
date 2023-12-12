@@ -113,6 +113,7 @@ const Result = () => {
           'https://man-vs-talmo-client-he3s4xddp-shinis-projects.vercel.app',
           'http://localhost:3000',  // 로컬 주소 추가
         ],
+        'Accept': 'application/json',
       },
     })
       .then(response => {
