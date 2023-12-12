@@ -71,6 +71,8 @@ const Img = styled.img`
 `;
 
 const Result = () => {
+  console.log("sdf")
+
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
   const dataParam = searchParams.get('data');
