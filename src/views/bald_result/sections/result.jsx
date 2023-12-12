@@ -109,7 +109,10 @@ const Result = () => {
       withCredentials: true,
       headers: {
         'Content-Type': 'application/json',
-        'Access-Control-Allow-Origin': 'https://man-vs-talmo-client-he3s4xddp-shinis-projects.vercel.app', // 허용하려는 오리진으로 변경
+        'Access-Control-Allow-Origin': [
+          'https://man-vs-talmo-client-he3s4xddp-shinis-projects.vercel.app',
+          'http://localhost:3000',  // 로컬 주소 추가
+        ],
       },
     })
       .then(response => {
