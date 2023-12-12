@@ -71,7 +71,6 @@ const Img = styled.img`
 `;
 
 const Result = () => {
-  console.log("sdf")
 
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
@@ -108,77 +107,24 @@ const Result = () => {
 
   ///////////////////////////////////////////fetch///////////////////////////////////////////
 
-  // useEffect(() => {
-  //   axios.post('https://man-vs-talmo-api.fly.dev/bald_persent_predict', data, {
-  //     withCredentials: true,
-  //     // headers: {
-  //     //   'Content-Type': 'application/json',
-  //     //   'Access-Control-Allow-Origin': [
-  //     //     'https://man-vs-talmo-client-he3s4xddp-shinis-projects.vercel.app',
-  //     //     'http://localhost:3000',  // 로컬 주소 추가
-  //     //   ],
-  //     //   'Accept': 'application/json',
-  //     // },
-  //   })
-  //     .then(response => {
-  //       const resultPredict = Math.floor(parseInt(response.data.predict * 100));
-  //       setresultPredict(resultPredict);
-  //       console.log(resultPredict)
-  //       let message = '';
-
-  //       if (resultPredict <= 25) {
-  //         imgPath.current = very_safe_img;
-  //         message = '놀리러 가야겠지?ㅋㅋㅋ';
-  //       } else if (resultPredict <= 50) {
-  //         imgPath.current = just_safe_img;
-  //         message = '아직 사소해';
-  //       } else if (resultPredict <= 75) {
-  //         imgPath.current = not_safe_img;
-  //         message = '관리해야겠지?ㅋㅋ';
-  //       } else if (resultPredict <= 100) {
-  //         imgPath.current = warning_img;
-  //         message = '어?? 이미?..';
-  //       } else {
-  //         imgPath.current = bald_img;
-  //         message = '문어님 왜 오신거에요';
-  //       }
-  //       console.log("yes")
-  //       setresultMessage(message);
-  //       console.log(data)
-  //     })
-  //     .catch(error => {
-  //       console.log('error:', error);
-  //     });
-  // }, [data]);
-
-  ///////////////////////////////////////////axios///////////////////////////////////////////
-
-  ///////////////////////////////////////////fetch///////////////////////////////////////////
-
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetch('https://man-vs-talmo-api.fly.dev/bald_persent_predict', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json', // Content-Type 헤더 추가
-            'Accept': 'application/json',
-            // 'Access-Control-Allow-Origin': 'http://localhost:3000', // 필요한 경우 주석 해제
-          },
-          // credentials: 'include',
-          body: JSON.stringify(data),
-        });
-  
-        if (!response.ok) {
-          throw new Error(`HTTP error! Status: ${response.status}`);
-        }
-  
-        const responseData = await response.json();
-        const resultPredict = Math.floor(parseInt(responseData.predict * 100));
+    axios.post('https://man-vs-talmo-api.fly.dev/bald_persent_predict', data, {
+      // withCredentials: true,
+      headers: {
+        'Content-Type': 'application/json',
+        // 'Access-Control-Allow-Origin': [
+        //   'https://man-vs-talmo-client-he3s4xddp-shinis-projects.vercel.app',
+        //   'http://localhost:3000',  // 로컬 주소 추가
+        // ],
+        'Accept': 'application/json',
+      },
+    })
+      .then(response => {
+        const resultPredict = Math.floor(parseInt(response.data.predict * 100));
         setresultPredict(resultPredict);
-  
+        // console.log(resultPredict)
         let message = '';
-  
+
         if (resultPredict <= 25) {
           imgPath.current = very_safe_img;
           message = '놀리러 가야겠지?ㅋㅋㅋ';
@@ -195,16 +141,65 @@ const Result = () => {
           imgPath.current = bald_img;
           message = '문어님 왜 오신거에요';
         }
-  
         setresultMessage(message);
-        console.log(data);
-      } catch (error) {
+        console.log(data)
+      })
+      .catch(error => {
         console.log('error:', error);
-      }
-    };
-  
-    fetchData();
+      });
   }, [data]);
+
+  ///////////////////////////////////////////axios///////////////////////////////////////////
+
+  ///////////////////////////////////////////fetch///////////////////////////////////////////
+
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     try {
+  //       const response = await fetch('https://man-vs-talmo-api.fly.dev/bald_persent_predict', {
+  //         method: 'POST',
+  //         headers: {
+  //           'Content-Type': 'application/json', // Content-Type 헤더 추가
+  //           'Accept': 'application/json',
+  //           // 'Access-Control-Allow-Origin': 'http://localhost:3000', // 필요한 경우 주석 해제
+  //         },
+  //         // credentials: 'include',
+  //         body: JSON.stringify(data),
+  //       });
+  
+  //       if (!response.ok) {
+  //         throw new Error(`HTTP error! Status: ${response.status}`);
+  //       }
+  
+  //       const responseData = await response.json();
+  //       const resultPredict = Math.floor(parseInt(responseData.predict * 100));
+  //       setresultPredict(resultPredict);
+  
+  //       let message = '';
+  
+  //       if (resultPredict <= 25) {
+  //         imgPath.current = very_safe_img;
+  //         message = '놀리러 가야겠지?ㅋㅋㅋ';
+  //       } else if (resultPredict <= 50) {
+  //         imgPath.current = just_safe_img;
+  //         message = '아직 사소해';
+  //       } else if (resultPredict <= 75) {
+  //         imgPath.current = not_safe_img;
+  //         message = '관리해야겠지?ㅋㅋ';
+  //       } else if (resultPredict <= 100) {
+  //         imgPath.current = warning_img;
+  //         message = '어?? 이미?..';
+  //       } else {
+  //         imgPath.current = bald_img;
+  //         message = '문어님 왜 오신거에요';
+  //       }
+  //       setresultMessage(message);
+  //     } catch (error) {
+  //       console.log('error:', error);
+  //     }
+  //   };
+  //   fetchData();
+  // });
   
   ///////////////////////////////////////////fetch///////////////////////////////////////////
 
