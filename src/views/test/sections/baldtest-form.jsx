@@ -3,6 +3,8 @@ import { useNavigate, Link } from 'react-router-dom';
 import { Button, Container, Row, Col, Modal, ModalHeader, ModalBody, ModalFooter, BreadcrumbItem } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
+import '../../../assets/scss/Button.css'
+
 const BaldForm = () => {
   const navigate = useNavigate();
 
@@ -95,137 +97,130 @@ const BaldForm = () => {
               <br/>
               <input type="number" style={{ width: '300px', height: '50px' }} placeholder="나이" value={age} onChange={(e) => setAge(e.target.value)} />
               <br/>
+              <Button variant="outline-primary" className="button" onClick={nextStep}>
+                다음
+              </Button>
+            </>
+          )}
+          {step === 2 && (
+            <>
+              <h1 className="title font-bold">몸무게</h1>
+              <h6 className="subtitle" style={{ marginBottom: '15px' }}>몸무게</h6>
+              <br/>
+              <input type="number" style={{ width: '300px', height: '50px' }} placeholder="몸무게" value={weight} onChange={(e) => setWeight(e.target.value)} />
+              <br/>
+              <Button variant="outline-secondary" className="btn btn-block" onClick={prevStep}>
+                이전
+              </Button>
               <Button variant="outline-primary" className="btn btn-block" onClick={nextStep}>
                 다음
               </Button>
             </>
           )}
-
-{step === 2 && (
-  <>
-    <h1 className="title font-bold">성별이 무엇인가요?</h1>
-    <h6 className="subtitle">남성과 여성외의 성별을 선택 할 수 없습니다.</h6>
-    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '10px' }}>
-      <Button variant="outline-primary" className="btn btn-block" onClick={() => handleSelection('gender', 1)} style={{ width: '200px' }}>
-        남성
-      </Button>
-      <Button variant="outline-primary" className="btn btn-block" onClick={() => handleSelection('gender', 0)} style={{ width: '200px' }}>
-        여성
-      </Button>
-    </div>
-    <Button variant="outline-secondary" className="btn btn-block" onClick={prevStep}>
-      이전
-    </Button>
-  </>
-)}
-
-{step === 3 && (
-  <>
-    <h1 className="title font-bold">결혼 유무</h1>
-    <h6 className="subtitle">현재를 기준으로 골라주세요.</h6>
-    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '10px' }}>
-      <Button variant="outline-primary" className="btn btn-block" onClick={() => handleSelection('maritalStatus', 1)} style={{ width: '200px' }}>
-        결혼
-      </Button>
-      <Button variant="outline-primary" className="btn btn-block" onClick={() => handleSelection('maritalStatus', 0)} style={{ width: '200px' }}>
-        미혼
-      </Button>
-    </div>
-    <Button variant="outline-secondary" className="btn btn-block" onClick={prevStep}>
-      이전
-    </Button>
-  </>
-)}
-
-{step === 4 && (
-  <>
-    <h1 className="title font-bold">탈모 유전</h1>
-    <h6 className="subtitle" style={{ marginBottom: '15px' }}>탈모가 유전인지 아닌지에 따라 현재 탈모 위험도 수치에 영향을 많이 끼쳐요</h6>
-    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '10px' }}>
-      <Button variant="outline-primary" className="btn btn-block" onClick={() => handleSelection('hairLossGenetics', 1)} style={{ width: '200px' }}>
-        유전 있음
-      </Button>
-      <Button variant="outline-primary" className="btn btn-block" onClick={() => handleSelection('hairLossGenetics', 0)} style={{ width: '200px' }}>
-        유전 없음
-      </Button>
-    </div>
-    <Button variant="outline-secondary" className="btn btn-block" onClick={prevStep}>
-      이전
-    </Button>
-  </>
-)}
-
-{step === 5 && (
-  <>
-    <h1 className="title font-bold">몸무게</h1>
-    <h6 className="subtitle" style={{ marginBottom: '15px' }}>몸무게</h6>
-    <br/>
-    <input type="number" style={{ width: '300px', height: '50px' }} placeholder="몸무게" value={weight} onChange={(e) => setWeight(e.target.value)} />
-    <br/>
-    <Button variant="outline-secondary" className="btn btn-block" onClick={prevStep}>
-      이전
-    </Button>
-    <Button variant="outline-primary" className="btn btn-block" onClick={nextStep}>
-      다음
-    </Button>
-  </>
-)}
-
-{step === 6 && (
-  <>
-    <h1 className="title font-bold">키</h1>
-    <h6 className="subtitle" style={{ marginBottom: '15px' }}>키</h6>
-    <br/>
-    <input type="number" style={{ width: '300px', height: '50px' }} placeholder="키" value={height} onChange={(e) => setHeight(e.target.value)} />
-    <br/>
-    <Button variant="outline-secondary" className="btn btn-block" onClick={prevStep}>
-      이전
-    </Button>
-    <Button variant="outline-primary" className="btn btn-block" onClick={nextStep}>
-      다음
-    </Button>
-  </>
-)}
-
-{step === 7 && (
-  <>
-    <h1 className="title font-bold">흡연 여부</h1>
-    <h6 className="subtitle" style={{ marginBottom: '15px' }}>현재 기준으로 흡연 여부를 알려주세요</h6>
-    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '10px' }}>
-      <Button variant="outline-primary" className="btn btn-block" onClick={() => handleSelection('smoking', 1)} style={{ width: '200px' }}>
-        흡연
-      </Button>
-      <Button variant="outline-primary" className="btn btn-block" onClick={() => handleSelection('smoking', 0)} style={{ width: '200px' }}>
-        비흡연
-      </Button>
-    </div>
-    <Button variant="outline-secondary" className="btn btn-block" onClick={prevStep}>
-      이전
-    </Button>
-  </>
-)}
-
-{step === 8 && (
-  <>
-    <h1 className="title font-bold">스트레스</h1>
-    <h6 className="subtitle" style={{ marginBottom: '15px' }}>현재 자신이 받고있는 스트레스를 1~10으로 표현해주세요. 값이 높을수록 스트레스가 크다는 의미입니다.</h6>
-    <br/>
-    <input
-      type="number"
-      style={{ width: '300px', height: '50px' }}
-      placeholder="스트레스 수치"
-      value={stress}
-      onChange={(e) => setStress(e.target.value)}
-    />
-    <br/>
-    <Button variant="outline-secondary" className="btn btn-block" onClick={prevStep}>
-      이전
-    </Button>
-    <Button variant="outline-primary" className="btn btn-block" onClick={submitForm}>
-      제출
-    </Button>
-  </>
-)}
+          {step === 3 && (
+            <>
+              <h1 className="title font-bold">키</h1>
+              <h6 className="subtitle" style={{ marginBottom: '15px' }}>키</h6>
+              <br/>
+              <input type="number" style={{ width: '300px', height: '50px' }} placeholder="키" value={height} onChange={(e) => setHeight(e.target.value)} />
+              <br/>
+              <Button variant="outline-secondary" className="btn btn-block" onClick={prevStep}>
+                이전
+              </Button>
+              <Button variant="outline-primary" className="btn btn-block" onClick={nextStep}>
+                다음
+              </Button>
+            </>
+          )}
+          {step === 4 && (
+            <>
+              <h1 className="title font-bold">성별이 무엇인가요?</h1>
+              <h6 className="subtitle">남성과 여성외의 성별을 선택 할 수 없습니다.</h6>
+              <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '10px' }}>
+                <Button variant="outline-primary" className="btn btn-block" onClick={() => handleSelection('gender', 1)} style={{ width: '200px' }}>
+                  남성
+                </Button>
+                <Button variant="outline-primary" className="btn btn-block" onClick={() => handleSelection('gender', 0)} style={{ width: '200px' }}>
+                  여성
+                </Button>
+              </div>
+              <Button variant="outline-secondary" className="btn btn-block" onClick={prevStep}>
+                이전
+              </Button>
+            </>
+          )}
+          {step === 5 && (
+            <>
+              <h1 className="title font-bold">결혼 유무</h1>
+              <h6 className="subtitle">현재를 기준으로 골라주세요.</h6>
+              <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '10px' }}>
+                <Button variant="outline-primary" className="btn btn-block" onClick={() => handleSelection('maritalStatus', 1)} style={{ width: '200px' }}>
+                  결혼
+                </Button>
+                <Button variant="outline-primary" className="btn btn-block" onClick={() => handleSelection('maritalStatus', 0)} style={{ width: '200px' }}>
+                  미혼
+                </Button>
+              </div>
+              <Button variant="outline-secondary" className="btn btn-block" onClick={prevStep}>
+                이전
+              </Button>
+            </>
+          )}
+          {step === 6 && (
+            <>
+              <h1 className="title font-bold">탈모 유전</h1>
+              <h6 className="subtitle" style={{ marginBottom: '15px' }}>탈모가 유전인지 아닌지에 따라 현재 탈모 위험도 수치에 영향을 많이 끼쳐요</h6>
+              <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '10px' }}>
+                <Button variant="outline-primary" className="btn btn-block" onClick={() => handleSelection('hairLossGenetics', 1)} style={{ width: '200px' }}>
+                  유전 있음
+                </Button>
+                <Button variant="outline-primary" className="btn btn-block" onClick={() => handleSelection('hairLossGenetics', 0)} style={{ width: '200px' }}>
+                  유전 없음
+                </Button>
+              </div>
+              <Button variant="outline-secondary" className="btn btn-block" onClick={prevStep}>
+                이전
+              </Button>
+            </>
+          )}
+          {step === 7 && (
+            <>
+              <h1 className="title font-bold">흡연 여부</h1>
+              <h6 className="subtitle" style={{ marginBottom: '15px' }}>현재 기준으로 흡연 여부를 알려주세요</h6>
+              <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '10px' }}>
+                <Button variant="outline-primary" className="btn btn-block" onClick={() => handleSelection('smoking', 1)} style={{ width: '200px' }}>
+                  흡연
+                </Button>
+                <Button variant="outline-primary" className="btn btn-block" onClick={() => handleSelection('smoking', 0)} style={{ width: '200px' }}>
+                  비흡연
+                </Button>
+              </div>
+              <Button variant="outline-secondary" className="btn btn-block" onClick={prevStep}>
+                이전
+              </Button>
+            </>
+          )}
+          {step === 8 && (
+            <>
+              <h1 className="title font-bold">스트레스</h1>
+              <h6 className="subtitle" style={{ marginBottom: '15px' }}>현재 자신이 받고있는 스트레스를 1~10으로 표현해주세요. 값이 높을수록 스트레스가 크다는 의미입니다.</h6>
+              <br/>
+              <input
+                type="number"
+                style={{ width: '300px', height: '50px' }}
+                placeholder="스트레스 수치"
+                value={stress}
+                onChange={(e) => setStress(e.target.value)}
+              />
+              <br/>
+              <Button variant="outline-secondary" className="btn btn-block" onClick={prevStep}>
+                이전
+              </Button>
+              <Button variant="outline-primary" className="btn btn-block" onClick={submitForm}>
+                제출
+              </Button>
+            </>
+          )}
         </Col>
       </Row>
     </Container>

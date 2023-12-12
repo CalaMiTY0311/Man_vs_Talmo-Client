@@ -109,20 +109,14 @@ const Result = () => {
 
   useEffect(() => {
     axios.post('https://man-vs-talmo-api.fly.dev/bald_persent_predict', data, {
-      // withCredentials: true,
       headers: {
         'Content-Type': 'application/json',
-        // 'Access-Control-Allow-Origin': [
-        //   'https://man-vs-talmo-client-he3s4xddp-shinis-projects.vercel.app',
-        //   'http://localhost:3000',  // 로컬 주소 추가
-        // ],
         'Accept': 'application/json',
       },
     })
       .then(response => {
         const resultPredict = Math.floor(parseInt(response.data.predict * 100));
         setresultPredict(resultPredict);
-        // console.log(resultPredict)
         let message = '';
 
         if (resultPredict <= 25) {
@@ -147,7 +141,7 @@ const Result = () => {
       .catch(error => {
         console.log('error:', error);
       });
-  }, [data]);
+  });
 
   ///////////////////////////////////////////axios///////////////////////////////////////////
 
