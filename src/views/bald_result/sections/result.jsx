@@ -110,14 +110,29 @@ const Result = () => {
   useEffect(() => {
     const formData = new FormData();
 
-    formData.append('bald_persent_data', JSON.stringify(data));
+    formData.append('age', data.age);
+    formData.append('gender', data.gender);
+    formData.append('is_married', data.is_married);
+    formData.append('is_hereditary', data.is_hereditary);
+    formData.append('weight', data.weight);
+    formData.append('height', data.height);
+    formData.append('is_smoker', data.is_smoker);
+    formData.append('stress', data.stress);
 
-    axios.post('https://man-vs-talmo-api.fly.dev/bald_persent_predict', formData, {
-      headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json',
-      },
-    })
+    console.log(formData)
+
+    axios.post(
+      // 'https://man-vs-talmo-api.fly.dev/bald_persent_predict', 
+      'http://localhost:8000/bald_persent_predict',
+      formData, 
+      {
+        headers: {
+          // 'Content-Type': 'application/json',
+          'Accept': 'application/json',
+        },
+        responseType: 'json', // Add responseType
+      }
+    )
       .then(response => {
         const resultPredict = Math.floor(parseInt(response.data.predict * 100));
         setresultPredict(resultPredict);
