@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useLocation, Link } from 'react-router-dom';
-import axios from 'axios';
 import styled from 'styled-components';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import {
@@ -73,21 +72,14 @@ const Img = styled.img`
 const Result = () => {
 
   const location = useLocation();
-  const searchParams = new URLSearchParams(location.search);
-  const dataParam = searchParams.get('data');
+  const data = location.state.Predict;
 
-  const [resultPredict, setresultPredict] = useState(null);
   const [resultMessage, setresultMessage] = useState(null);
 
   const [imgSize, setImgSize] = useState({ width: '500px', height: '450px' });
 
 
   let imgPath = useRef('');
-
-  const data = JSON.parse(dataParam);
-  data.age = parseInt(data.age);
-  data.weight = parseFloat(data.weight);
-  data.height = parseFloat(data.height);
 
   const handleResize = () => {
     const width = window.innerWidth;
@@ -108,60 +100,27 @@ const Result = () => {
   ///////////////////////////////////////////fetch///////////////////////////////////////////
 
   useEffect(() => {
-    const formData = new FormData();
+    let message = ''
+    if (data<= 25) {
+      imgPath.current = very_safe_img;
+      message = '놀리러 가야겠지?ㅋㅋㅋ';
+    } else if (data <= 50) {
+      imgPath.current = just_safe_img;
+      message = '아직 사소해';
+    } else if (data <= 75) {
+      imgPath.current = not_safe_img;
+      message = '관리해야겠지?ㅋㅋ';
+    } else if (data <= 100) {
+      imgPath.current = warning_img;
+      message = '어?? 이미?..';
+    } else {
+      imgPath.current = bald_img;
+      message = '문어님 왜 오신거에요';
+    }
+    setresultMessage(message);
+  })
+  
 
-    formData.append('age', data.age);
-    formData.append('gender', data.gender);
-    formData.append('is_married', data.is_married);
-    formData.append('is_hereditary', data.is_hereditary);
-    formData.append('weight', data.weight);
-    formData.append('height', data.height);
-    formData.append('is_smoker', data.is_smoker);
-    formData.append('stress', data.stress);
-
-    console.log(formData)
-
-    axios.post(
-      // 'https://man-vs-talmo-api.fly.dev/bald_persent_predict', 
-      'http://localhost:8000/bald_persent_predict',
-      formData, 
-      {
-        headers: {
-          // 'Content-Type': 'application/json',
-          'Accept': 'application/json',
-        },
-        responseType: 'json', // Add responseType
-      }
-    )
-      .then(response => {
-        const resultPredict = Math.floor(parseInt(response.data.predict * 100));
-        setresultPredict(resultPredict);
-
-        let message = '';
-
-        if (resultPredict <= 25) {
-          imgPath.current = very_safe_img;
-          message = '놀리러 가야겠지?ㅋㅋㅋ';
-        } else if (resultPredict <= 50) {
-          imgPath.current = just_safe_img;
-          message = '아직 사소해';
-        } else if (resultPredict <= 75) {
-          imgPath.current = not_safe_img;
-          message = '관리해야겠지?ㅋㅋ';
-        } else if (resultPredict <= 100) {
-          imgPath.current = warning_img;
-          message = '어?? 이미?..';
-        } else {
-          imgPath.current = bald_img;
-          message = '문어님 왜 오신거에요';
-        }
-        setresultMessage(message);
-        console.log(data)
-      })
-      .catch(error => {
-        console.log('error:', error);
-      });
-  });
 
   ///////////////////////////////////////////axios///////////////////////////////////////////
 
@@ -236,7 +195,7 @@ const Result = () => {
       objectType: 'feed',
       content: {
         title: '현재 나의 탈모위험도는?',
-        description:`${resultMessage}\n${resultPredict ? `현재 탈모 위험도: ${resultPredict}` : '탈모 위험도를 계산 중입니다.'}`,
+        description:`${resultMessage}\n${data ? `현재 탈모 위험도: ${data}` : '탈모 위험도를 계산 중입니다.'}`,
         // imageUrl: imgPath.current,
         imageUrl: 'https://www.koreapas.com/bbs/data2/gofun/%C5%BB%B8%F0%B0%B63.jpg',
         link: {
@@ -264,7 +223,7 @@ const Result = () => {
           <Row className="justify-content-center">
             <Col md="7" className="text-center">
               <h4 className="title font-bold">{resultMessage}</h4>
-              <h3 className="font-bold">현재 탈모 위험도 {resultPredict}%</h3>
+              <h3 className="font-bold">현재 탈모 위험도 {data}%</h3>
             </Col>
           </Row>
           <Row>

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { Button, Container, Row, Col, Modal, ModalHeader, ModalBody, ModalFooter, BreadcrumbItem } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import axios from 'axios';
 
 import '../../../assets/scss/Button.css'
 
@@ -18,6 +19,8 @@ const BaldForm = () => {
   const [height, setHeight] = useState('');
   const [is_smoker, setIs_smoker] = useState(null);
   const [stress, setStress] = useState('');
+  const [resultPredict, setresultPredict] = useState(null);
+
 
   const [modal, setModal] = useState(true);
 
@@ -31,6 +34,9 @@ const BaldForm = () => {
     is_smoker,
     stress,
   };
+  formData.age = parseInt(formData.age);
+  formData.weight = parseFloat(formData.weight);
+  formData.height = parseFloat(formData.height);
   
   const nextStep = () => {
     if (step === 1 && (age === '' || isNaN(age) || age < 0 || age >= 100)) {
@@ -63,14 +69,29 @@ const BaldForm = () => {
     }
     nextStep();
   };
-
+  
   const submitForm = () => {
     if (step === 8 && (stress === '' || isNaN(stress) || stress < 1 || stress > 10)) {
       alert('스트레스는 1부터 10까지의 숫자 또는 공백이 아니어야합니다.');
       return;
     }
-    // console.log(formData);
-    navigate(`/result?data=${JSON.stringify(formData)}`);
+    axios.post(
+      'http://localhost:8000/bald_persent_predict',
+      formData,
+      {
+        headers:{
+          'Accept': 'application/json',
+        }
+      }
+    )
+    .then(response => {
+      const resultPredict = Math.floor(parseInt(response.data.predict * 100));
+      setresultPredict(resultPredict);
+      navigate('/result', { state : { Predict : resultPredict } });
+    })
+    .catch(error => {
+      console.log('error:', error);
+    });
   };
 
   return (
