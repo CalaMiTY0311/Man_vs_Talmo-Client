@@ -108,7 +108,11 @@ const Result = () => {
   ///////////////////////////////////////////fetch///////////////////////////////////////////
 
   useEffect(() => {
-    axios.post('https://man-vs-talmo-api.fly.dev/bald_persent_predict', data, {
+    const formData = new FormData();
+
+    formData.append('bald_persent_data', JSON.stringify(data));
+
+    axios.post('https://man-vs-talmo-api.fly.dev/bald_persent_predict', formData, {
       headers: {
         'Content-Type': 'application/json',
         'Accept': 'application/json',
@@ -117,6 +121,7 @@ const Result = () => {
       .then(response => {
         const resultPredict = Math.floor(parseInt(response.data.predict * 100));
         setresultPredict(resultPredict);
+
         let message = '';
 
         if (resultPredict <= 25) {
