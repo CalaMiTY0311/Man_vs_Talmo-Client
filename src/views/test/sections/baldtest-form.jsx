@@ -76,7 +76,8 @@ const BaldForm = () => {
       return;
     }
     axios.post(
-      'http://localhost:8000/bald_persent_predict',
+      'https://man-vs-talmo-api.fly.dev/bald_persent_predict',
+      // 'http://localhost:8000/bald_persent_predict',
       formData,
       {
         headers:{
@@ -92,6 +93,7 @@ const BaldForm = () => {
     .catch(error => {
       console.log('error:', error);
     });
+    // navigate('/result', { state : { Predict : resultPredict } }); - error
   };
 
   return (
