@@ -3,6 +3,7 @@ import { useNavigate, Link } from 'react-router-dom';
 import { Button, Container, Row, Col, Modal, ModalHeader, ModalBody, ModalFooter, BreadcrumbItem } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import axios from 'axios';
+import Loading from '../../../components/loading/loading.jsx'
 
 import '../../../assets/scss/Button.css'
 
@@ -20,6 +21,8 @@ const BaldForm = () => {
   const [is_smoker, setIs_smoker] = useState(null);
   const [stress, setStress] = useState('');
   const [resultPredict, setresultPredict] = useState(null);
+
+  const [loading, setLoading] = useState(false);
 
 
   const [modal, setModal] = useState(true);
@@ -75,6 +78,7 @@ const BaldForm = () => {
       alert('스트레스는 1부터 10까지의 숫자 또는 공백이 아니어야합니다.');
       return;
     }
+    setLoading(true);
     axios.post(
       'https://man-vs-talmo-api.fly.dev/bald_persent_predict',
       // 'http://localhost:8000/bald_persent_predict',
@@ -88,6 +92,7 @@ const BaldForm = () => {
     .then(response => {
       const resultPredict = Math.floor(parseInt(response.data.predict * 100));
       setresultPredict(resultPredict);
+      setLoading(false);
       navigate('/result', { state : { Predict : resultPredict } });
     })
     .catch(error => {
@@ -103,8 +108,18 @@ const BaldForm = () => {
         <Modal size="lg" show={modal} onHide={() => setModal(false)} backdrop="static" keyboard={false}>
             <ModalHeader></ModalHeader>
             <ModalBody>
-              이 테스트는 Kaggle에서 수집한 데이터셋을 활용하여 머신 러닝 결과를 제공합니다. 하지만, 실제 탈모 여부를 정확하게 판단하기 위해서는 여러 가지 복잡한 요인을 고려해야 합니다. 테스트는 단순한 예측 도구로써 활용되며, 정확한 진단을 위해서는 전문가와의 상담이 필요합니다. 따라서 이 결과를 너무 신뢰하지 말고, 단순한 테스트로 간주하시기를 권장합니다.
-              <BreadcrumbItem color="link" href="https://www.kaggle.com/datasets/itsnahm/baldness-probability">데이터셋 출처 - (Kaggle)</BreadcrumbItem>
+                  <p>
+                <strong>이 테스트는 Kaggle에서 수집한 데이터셋을 활용하여 머신 러닝 결과를 제공합니다.</strong> 
+                하지만, 실제 탈모 여부를 정확하게 판단하기 위해서는 여러 가지 복잡한 요인을 고려해야 합니다.
+                <strong>이 테스트는 단순한 예측 도구로써 활용되며, 정확한 진단을 위해서는 전문가와의 상담이 필요합니다. 
+                <br/><br/>따라서 이 결과를 너무 신뢰하지 말고, 단순한 테스트로 간주하시기를 권장합니다.</strong>
+              </p>
+              <p>
+              <strong>또한 사용자의 정보는 수집하지 않습니다. 이 테스트는 익명의 데이터를 기반으로 하며, 개인 식별 정보는 저장되지 않습니다.</strong>
+              </p>
+              <BreadcrumbItem color="link" href="https://www.kaggle.com/datasets/itsnahm/baldness-probability">
+                데이터셋 출처 - (Kaggle)
+              </BreadcrumbItem>
             </ModalBody>
             <ModalFooter>
                 <Button color="primary" onClick={() => setModal(false)}>테스트 하러가기</Button>{' '}
@@ -242,6 +257,7 @@ const BaldForm = () => {
               <Button variant="outline-primary" className="btn btn-block" onClick={submitForm}>
                 제출
               </Button>
+              {loading ? <Loading /> : null}
             </>
           )}
         </Col>

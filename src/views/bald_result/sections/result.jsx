@@ -78,7 +78,6 @@ const Result = () => {
 
   const [imgSize, setImgSize] = useState({ width: '500px', height: '450px' });
 
-
   let imgPath = useRef('');
 
   const handleResize = () => {
