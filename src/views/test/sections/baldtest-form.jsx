@@ -44,6 +44,15 @@ const BaldForm = () => {
   formData.weight = parseFloat(formData.weight);
   formData.height = parseFloat(formData.height);
 
+  const handleKeyPress = (event) => {
+    if (step === 8 && event.key === 'Enter') {
+      submitForm();
+    } 
+    else if(event.key === 'Enter') {
+      nextStep();      
+    }
+  };
+
   const nextStep = () => {
     if (step === 1 && (age === '' || isNaN(age) || age < 0 || age >= 100)) {
       alert('0~99까지의 숫자 또는 공백이 아니어야합니다.');
@@ -82,7 +91,6 @@ const BaldForm = () => {
       return;
     }
     setLoading(true);
-    console.log(formData)
     axios.post(
       'https://man-vs-talmo-api.fly.dev/bald_persent_predict',
       // 'http://localhost:8000/bald_persent_predict',
@@ -137,7 +145,7 @@ const BaldForm = () => {
               <h1 className="title font-bold">본인의 나이를 입력해주세요</h1>
               <h6 className="subtitle">부정확한 값은 결과에 영향이 있으니 조심해주세요.</h6>
               <br/>
-              <input type="number" className="input-round-box" placeholder="나이" value={age} onChange={(e) => setAge(e.target.value)} />
+              <input type="number" className="input-round-box" placeholder="나이" onKeyPress={handleKeyPress} value={age} onChange={(e) => setAge(e.target.value)} />
               <br/><br/>
               <Button color="primary" className="round-box" onClick={nextStep}>
                 다음
@@ -148,7 +156,7 @@ const BaldForm = () => {
             <>
               <h1 className="title font-bold">키를 입력해주세요</h1>
               <br/>
-              <input type="number" className="input-round-box" placeholder="키" value={height} onChange={(e) => setHeight(e.target.value)} />
+              <input type="number" className="input-round-box" placeholder="키" onKeyPress={handleKeyPress} value={height} onChange={(e) => setHeight(e.target.value)} />
               <br/>
               <Button color="success" className="btn btn-block round-box" onClick={nextStep}>
                 다음
@@ -163,7 +171,7 @@ const BaldForm = () => {
             <>
               <h1 className="title font-bold">몸무게를 입력해주세요</h1>
               <br/>
-              <input type="number" className="input-round-box" placeholder="몸무게" value={weight} onChange={(e) => setWeight(e.target.value)} />
+              <input type="number" className="input-round-box" placeholder="몸무게" onKeyPress={handleKeyPress} value={weight} onChange={(e) => setWeight(e.target.value)} />
               <br/>
               <Button color="success" className="btn btn-block round-box" onClick={nextStep}>
                 다음
@@ -255,6 +263,7 @@ const BaldForm = () => {
                 type="number"
                 className="input-round-box"
                 placeholder="스트레스 수치"
+                onKeyPress={handleKeyPress}
                 value={stress}
                 onChange={(e) => setStress(e.target.value)}
               />

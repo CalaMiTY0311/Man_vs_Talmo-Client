@@ -237,7 +237,7 @@ const Result = () => {
         </Container>
       <br />
       <FlexContainer>
-        <h2>친구들과 공유하기</h2>
+        <h4>친구들과 공유하기</h4>
         <br />
         <GridContainer>
           <FacebookShareButton url={currentUrl}>
