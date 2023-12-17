@@ -4,8 +4,11 @@ import { Button, Container, Row, Col, Modal, ModalHeader, ModalBody, ModalFooter
 import 'bootstrap/dist/css/bootstrap.min.css';
 import axios from 'axios';
 import Loading from '../../../components/loading/loading.jsx'
+import Inputbox from '../../../components/Inputbox/Inputbox.jsx'
+
 
 import '../../../assets/scss/Button.css'
+import '../../../assets/scss/variable.scss'
 
 const BaldForm = () => {
   const navigate = useNavigate();
@@ -40,7 +43,7 @@ const BaldForm = () => {
   formData.age = parseInt(formData.age);
   formData.weight = parseFloat(formData.weight);
   formData.height = parseFloat(formData.height);
-  
+
   const nextStep = () => {
     if (step === 1 && (age === '' || isNaN(age) || age < 0 || age >= 100)) {
       alert('0~99까지의 숫자 또는 공백이 아니어야합니다.');
@@ -79,6 +82,7 @@ const BaldForm = () => {
       return;
     }
     setLoading(true);
+    console.log(formData)
     axios.post(
       'https://man-vs-talmo-api.fly.dev/bald_persent_predict',
       // 'http://localhost:8000/bald_persent_predict',
@@ -131,42 +135,42 @@ const BaldForm = () => {
           {step === 1 && (
             <>
               <h1 className="title font-bold">본인의 나이를 입력해주세요</h1>
-              <h6 className="subtitle">부정확한 값을 입력하면 이상한 값이 나오니 조심해주세요.</h6>
+              <h6 className="subtitle">부정확한 값은 결과에 영향이 있으니 조심해주세요.</h6>
               <br/>
-              <input type="number" style={{ width: '300px', height: '50px' }} placeholder="나이" value={age} onChange={(e) => setAge(e.target.value)} />
-              <br/>
-              <Button variant="outline-primary" className="button" onClick={nextStep}>
+              <input type="number" className="input-round-box" placeholder="나이" value={age} onChange={(e) => setAge(e.target.value)} />
+              <br/><br/>
+              <Button color="primary" className="round-box" onClick={nextStep}>
                 다음
               </Button>
             </>
           )}
           {step === 2 && (
             <>
-              <h1 className="title font-bold">몸무게</h1>
-              <h6 className="subtitle" style={{ marginBottom: '15px' }}>몸무게</h6>
+              <h1 className="title font-bold">키를 입력해주세요</h1>
               <br/>
-              <input type="number" style={{ width: '300px', height: '50px' }} placeholder="몸무게" value={weight} onChange={(e) => setWeight(e.target.value)} />
+              <input type="number" className="input-round-box" placeholder="키" value={height} onChange={(e) => setHeight(e.target.value)} />
               <br/>
-              <Button variant="outline-secondary" className="btn btn-block" onClick={prevStep}>
-                이전
-              </Button>
-              <Button variant="outline-primary" className="btn btn-block" onClick={nextStep}>
+              <Button color="success" className="btn btn-block round-box" onClick={nextStep}>
                 다음
+              </Button>
+              <br />
+              <Button className="btn btn-block round-box" onClick={prevStep}>
+                이전
               </Button>
             </>
           )}
           {step === 3 && (
             <>
-              <h1 className="title font-bold">키</h1>
-              <h6 className="subtitle" style={{ marginBottom: '15px' }}>키</h6>
+              <h1 className="title font-bold">몸무게를 입력해주세요</h1>
               <br/>
-              <input type="number" style={{ width: '300px', height: '50px' }} placeholder="키" value={height} onChange={(e) => setHeight(e.target.value)} />
+              <input type="number" className="input-round-box" placeholder="몸무게" value={weight} onChange={(e) => setWeight(e.target.value)} />
               <br/>
-              <Button variant="outline-secondary" className="btn btn-block" onClick={prevStep}>
-                이전
-              </Button>
-              <Button variant="outline-primary" className="btn btn-block" onClick={nextStep}>
+              <Button color="success" className="btn btn-block round-box" onClick={nextStep}>
                 다음
+              </Button>
+              <br />
+              <Button className="btn btn-block round-box" onClick={prevStep}>
+                이전
               </Button>
             </>
           )}
@@ -175,14 +179,15 @@ const BaldForm = () => {
               <h1 className="title font-bold">성별이 무엇인가요?</h1>
               <h6 className="subtitle">남성과 여성외의 성별을 선택 할 수 없습니다.</h6>
               <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '10px' }}>
-                <Button variant="outline-primary" className="btn btn-block" onClick={() => handleSelection('gender', 1)} style={{ width: '200px' }}>
+                <Button className="btn btn-block round-box" onClick={() => handleSelection('gender', 1)} style={{ width: '200px' }}>
                   남성
                 </Button>
-                <Button variant="outline-primary" className="btn btn-block" onClick={() => handleSelection('gender', 0)} style={{ width: '200px' }}>
+                <Button className="btn btn-block round-box" onClick={() => handleSelection('gender', 0)} style={{ width: '200px' }}>
                   여성
                 </Button>
               </div>
-              <Button variant="outline-secondary" className="btn btn-block" onClick={prevStep}>
+              <br />
+              <Button color="muted" className="btn btn-block round-box" onClick={prevStep}>
                 이전
               </Button>
             </>
@@ -192,14 +197,15 @@ const BaldForm = () => {
               <h1 className="title font-bold">결혼 유무</h1>
               <h6 className="subtitle">현재를 기준으로 골라주세요.</h6>
               <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '10px' }}>
-                <Button variant="outline-primary" className="btn btn-block" onClick={() => handleSelection('maritalStatus', 1)} style={{ width: '200px' }}>
+                <Button className="btn btn-block round-box" onClick={() => handleSelection('maritalStatus', 1)} style={{ width: '200px' }}>
                   결혼
                 </Button>
-                <Button variant="outline-primary" className="btn btn-block" onClick={() => handleSelection('maritalStatus', 0)} style={{ width: '200px' }}>
+                <Button className="btn btn-block round-box" onClick={() => handleSelection('maritalStatus', 0)} style={{ width: '200px' }}>
                   미혼
                 </Button>
               </div>
-              <Button variant="outline-secondary" className="btn btn-block" onClick={prevStep}>
+              <br />
+              <Button color="muted" className="btn btn-block round-box" onClick={prevStep}>
                 이전
               </Button>
             </>
@@ -209,14 +215,15 @@ const BaldForm = () => {
               <h1 className="title font-bold">탈모 유전</h1>
               <h6 className="subtitle" style={{ marginBottom: '15px' }}>탈모가 유전인지 아닌지에 따라 현재 탈모 위험도 수치에 영향을 많이 끼쳐요</h6>
               <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '10px' }}>
-                <Button variant="outline-primary" className="btn btn-block" onClick={() => handleSelection('hairLossGenetics', 1)} style={{ width: '200px' }}>
+                <Button className="btn btn-block round-box" onClick={() => handleSelection('hairLossGenetics', 1)} style={{ width: '200px' }}>
                   유전 있음
                 </Button>
-                <Button variant="outline-primary" className="btn btn-block" onClick={() => handleSelection('hairLossGenetics', 0)} style={{ width: '200px' }}>
+                <Button className="btn btn-block round-box" onClick={() => handleSelection('hairLossGenetics', 0)} style={{ width: '200px' }}>
                   유전 없음
                 </Button>
               </div>
-              <Button variant="outline-secondary" className="btn btn-block" onClick={prevStep}>
+              <br />
+              <Button color="muted" className="btn btn-block round-box" onClick={prevStep}>
                 이전
               </Button>
             </>
@@ -226,14 +233,15 @@ const BaldForm = () => {
               <h1 className="title font-bold">흡연 여부</h1>
               <h6 className="subtitle" style={{ marginBottom: '15px' }}>현재 기준으로 흡연 여부를 알려주세요</h6>
               <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '10px' }}>
-                <Button variant="outline-primary" className="btn btn-block" onClick={() => handleSelection('smoking', 1)} style={{ width: '200px' }}>
+                <Button className="btn btn-block round-box" onClick={() => handleSelection('smoking', 1)} style={{ width: '200px' }}>
                   흡연
                 </Button>
-                <Button variant="outline-primary" className="btn btn-block" onClick={() => handleSelection('smoking', 0)} style={{ width: '200px' }}>
+                <Button className="btn btn-block round-box" onClick={() => handleSelection('smoking', 0)} style={{ width: '200px' }}>
                   비흡연
                 </Button>
               </div>
-              <Button variant="outline-secondary" className="btn btn-block" onClick={prevStep}>
+              <br />
+              <Button color="muted" className="btn btn-block round-box" onClick={prevStep}>
                 이전
               </Button>
             </>
@@ -245,17 +253,18 @@ const BaldForm = () => {
               <br/>
               <input
                 type="number"
-                style={{ width: '300px', height: '50px' }}
+                className="input-round-box"
                 placeholder="스트레스 수치"
                 value={stress}
                 onChange={(e) => setStress(e.target.value)}
               />
               <br/>
-              <Button variant="outline-secondary" className="btn btn-block" onClick={prevStep}>
-                이전
-              </Button>
-              <Button variant="outline-primary" className="btn btn-block" onClick={submitForm}>
+              <Button className="btn btn-block round-box" onClick={submitForm}>
                 제출
+              </Button>
+              <br />
+              <Button color="muted" className="btn btn-block round-box" onClick={prevStep}>
+                이전
               </Button>
               {loading ? <Loading /> : null}
             </>
