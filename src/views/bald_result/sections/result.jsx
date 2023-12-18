@@ -19,6 +19,8 @@ import not_safe_img from '../../../assets/images/bald_result_img/not_safe/img.jp
 import warning_img from '../../../assets/images/bald_result_img/warning/img.jpg';
 import bald_img from '../../../assets/images/bald_result_img/bald/img.jpg';
 
+import '../../../assets/scss/side-set-style.css'
+
 const FlexContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -76,25 +78,25 @@ const Result = () => {
 
   const [resultMessage, setresultMessage] = useState(null);
 
-  const [imgSize, setImgSize] = useState({ width: '500px', height: '450px' });
+  // const [imgSize, setImgSize] = useState({ width: '350px', height: '300px' });
 
   let imgPath = useRef('');
 
-  const handleResize = () => {
-    const width = window.innerWidth;
-    const height = width <= 768 ? 'auto' : '450px';
-    setImgSize({ width: '500px', height });
-  };
+  // const handleResize = () => {
+  //   const width = window.innerWidth;
+  //   const height = width <= 768 ? 'auto' : '450px';
+  //   setImgSize({ width: '500px', height });
+  // };
 
-  useEffect(() => {
-    handleResize(); // Initial check
+  // useEffect(() => {
+  //   handleResize(); // Initial check
 
-    // Event listener for window resize
-    window.addEventListener('resize', handleResize);
+  //   // Event listener for window resize
+  //   window.addEventListener('resize', handleResize);
 
-    // Cleanup the event listener on component unmount
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
+  //   // Cleanup the event listener on component unmount
+  //   return () => window.removeEventListener('resize', handleResize);
+  // }, []);
 
   ///////////////////////////////////////////fetch///////////////////////////////////////////
 
@@ -227,7 +229,10 @@ const Result = () => {
           </Row>
           <Row>
             <Col lg="12" className="text-center m-b-30">
-              <Img src={imgPath.current} alt="img" className="img-rounded" style= {imgSize}/>
+              <Img src={imgPath.current} 
+              alt="img" className="img-rounded result-img" 
+              // style= {imgSize}
+              />
               <br /><br />
               <Link to="/test">
                 <Button type="button" color="primary" style={{ width: '200px', height: '50px' }}>다시 테스트하기</Button>
