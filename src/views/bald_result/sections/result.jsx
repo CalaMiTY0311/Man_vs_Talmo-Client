@@ -175,7 +175,7 @@ const Result = () => {
   
   ///////////////////////////////////////////fetch///////////////////////////////////////////
 
-  const currentUrl = window.location.href;
+  const homeUrl = "https://man-vs-talmo-client.vercel.app/"
 
   const status = useScript("https://developers.kakao.com/sdk/js/kakao.js");
   useEffect(() => {
@@ -187,7 +187,7 @@ const Result = () => {
 	}, [status]);	
 
   const handleKakaoButton = () => {
-    const currentUrl = window.location.href;
+    // const homeUrl = "https://man-vs-talmo-client.vercel.app/"
 
     if (window.Kakao.isInitialized()) {
     window.Kakao.Link.sendDefault({
@@ -198,16 +198,16 @@ const Result = () => {
         // imageUrl: imgPath.current,
         imageUrl: 'https://www.koreapas.com/bbs/data2/gofun/%C5%BB%B8%F0%B0%B63.jpg',
         link: {
-          mobileWebUrl: currentUrl,
-          webUrl: currentUrl,
+          mobileWebUrl: homeUrl,
+          webUrl: homeUrl,
         },
       },
       buttons: [
         {
           title: '링크 열기',
           link: {
-            mobileWebUrl: currentUrl,
-            webUrl: currentUrl,
+            mobileWebUrl: homeUrl,
+            webUrl: homeUrl,
           },
         },
       ],
@@ -240,13 +240,13 @@ const Result = () => {
         <h4>친구들과 공유하기</h4>
         <br />
         <GridContainer>
-          <FacebookShareButton url={currentUrl}>
+          <FacebookShareButton url={homeUrl}>
             <FacebookIcon size={48} round={true} borderRadius={24}></FacebookIcon>
           </FacebookShareButton>
-          <TwitterShareButton url={currentUrl}>
+          <TwitterShareButton url={homeUrl}>
             <TwitterIcon size={48} round={true} borderRadius={24}></TwitterIcon>
           </TwitterShareButton>
-          <CopyToClipboard text={currentUrl}>
+          <CopyToClipboard text={homeUrl}>
             <URLShareButton>URL</URLShareButton>
           </CopyToClipboard>
           <KakaoShareButton>
