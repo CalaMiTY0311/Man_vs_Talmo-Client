@@ -4,10 +4,8 @@ import { Button, Container, Row, Col, Modal, ModalHeader, ModalBody, ModalFooter
 import 'bootstrap/dist/css/bootstrap.min.css';
 import axios from 'axios';
 import Loading from '../../../components/loading/loading.jsx'
-import Inputbox from '../../../components/Inputbox/Inputbox.jsx'
 
-
-import '../../../assets/scss/Button.css'
+import '../../../assets/scss/side-set-style.css'
 import '../../../assets/scss/variable.scss'
 
 const BaldForm = () => {
