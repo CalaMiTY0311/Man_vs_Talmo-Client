@@ -15,12 +15,6 @@ import Main from "./views/main/main.jsx";
 import Test from "./views/test/test.jsx";
 import Result from "./views/bald_result/bald_result.jsx";
 
-// import RouteChangeTracker from "./RouteChangeTracker";
-import ReactGA from 'react-ga4';
-
-ReactGA.initialize(process.env.REACT_APP_GOOGLE_ANALYTICS);
-ReactGA.send("pageview");
-
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
 var hist = createBrowserHistory();
