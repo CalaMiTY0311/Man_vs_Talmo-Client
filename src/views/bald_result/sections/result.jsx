@@ -19,8 +19,6 @@ import not_safe_img from '../../../assets/images/bald_result_img/not_safe/img.jp
 import warning_img from '../../../assets/images/bald_result_img/warning/img.jpg';
 import bald_img from '../../../assets/images/bald_result_img/bald/img.jpg';
 
-import ReactGA from 'react-ga4';
-
 import '../../../assets/scss/side-set-style.css'
 
 const FlexContainer = styled.div`
@@ -80,30 +78,7 @@ const Result = () => {
 
   const [resultMessage, setresultMessage] = useState(null);
 
-  // const [imgSize, setImgSize] = useState({ width: '350px', height: '300px' });
-
   let imgPath = useRef('');
-
-  // ReactGA.initialize(process.env.REACT_APP_GOOGLE_ANALYTICS);
-  // ReactGA.send("pageview");
-
-  // const handleResize = () => {
-  //   const width = window.innerWidth;
-  //   const height = width <= 768 ? 'auto' : '450px';
-  //   setImgSize({ width: '500px', height });
-  // };
-
-  // useEffect(() => {
-  //   handleResize(); // Initial check
-
-  //   // Event listener for window resize
-  //   window.addEventListener('resize', handleResize);
-
-  //   // Cleanup the event listener on component unmount
-  //   return () => window.removeEventListener('resize', handleResize);
-  // }, []);
-
-  ///////////////////////////////////////////fetch///////////////////////////////////////////
 
   useEffect(() => {
     let message = ''
@@ -125,62 +100,6 @@ const Result = () => {
     }
     setresultMessage(message);
   })
-  
-
-
-  ///////////////////////////////////////////axios///////////////////////////////////////////
-
-  ///////////////////////////////////////////fetch///////////////////////////////////////////
-
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     try {
-  //       const response = await fetch('https://man-vs-talmo-api.fly.dev/bald_persent_predict', {
-  //         method: 'POST',
-  //         headers: {
-  //           'Content-Type': 'application/json', // Content-Type 헤더 추가
-  //           'Accept': 'application/json',
-  //           // 'Access-Control-Allow-Origin': 'http://localhost:3000', // 필요한 경우 주석 해제
-  //         },
-  //         // credentials: 'include',
-  //         body: JSON.stringify(data),
-  //       });
-  
-  //       if (!response.ok) {
-  //         throw new Error(`HTTP error! Status: ${response.status}`);
-  //       }
-  
-  //       const responseData = await response.json();
-  //       const resultPredict = Math.floor(parseInt(responseData.predict * 100));
-  //       setresultPredict(resultPredict);
-  
-  //       let message = '';
-  
-  //       if (resultPredict <= 25) {
-  //         imgPath.current = very_safe_img;
-  //         message = '놀리러 가야겠지?ㅋㅋㅋ';
-  //       } else if (resultPredict <= 50) {
-  //         imgPath.current = just_safe_img;
-  //         message = '아직 사소해';
-  //       } else if (resultPredict <= 75) {
-  //         imgPath.current = not_safe_img;
-  //         message = '관리해야겠지?ㅋㅋ';
-  //       } else if (resultPredict <= 100) {
-  //         imgPath.current = warning_img;
-  //         message = '어?? 이미?..';
-  //       } else {
-  //         imgPath.current = bald_img;
-  //         message = '문어님 왜 오신거에요';
-  //       }
-  //       setresultMessage(message);
-  //     } catch (error) {
-  //       console.log('error:', error);
-  //     }
-  //   };
-  //   fetchData();
-  // });
-  
-  ///////////////////////////////////////////fetch///////////////////////////////////////////
 
   const homeUrl = "https://man-vs-talmo-client.vercel.app/"
 

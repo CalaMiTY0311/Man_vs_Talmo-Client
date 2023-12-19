@@ -3,7 +3,7 @@ import { useNavigate, Link } from 'react-router-dom';
 import { Button, Container, Row, Col, Modal, ModalHeader, ModalBody, ModalFooter, BreadcrumbItem } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import axios from 'axios';
-import Loading from '../../../components/loading/loading.jsx'
+import Loading from '../../../components/loading/loading.jsx';
 
 import '../../../assets/scss/side-set-style.css'
 import '../../../assets/scss/variable.scss'
@@ -24,7 +24,6 @@ const BaldForm = () => {
   const [resultPredict, setresultPredict] = useState(null);
 
   const [loading, setLoading] = useState(false);
-
 
   const [modal, setModal] = useState(true);
 
@@ -88,7 +87,9 @@ const BaldForm = () => {
       alert('스트레스는 1부터 10까지의 숫자 또는 공백이 아니어야합니다.');
       return;
     }
+
     setLoading(true);
+
     axios.post(
       'https://man-vs-talmo-api.fly.dev/bald_persent_predict',
       // 'http://localhost:8000/bald_persent_predict',
