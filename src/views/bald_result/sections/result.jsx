@@ -19,7 +19,7 @@ import not_safe_img from '../../../assets/images/bald_result_img/not_safe/img.jp
 import warning_img from '../../../assets/images/bald_result_img/warning/img.jpg';
 import bald_img from '../../../assets/images/bald_result_img/bald/img.jpg';
 
-// import ReactGA from 'react-ga4';
+import ReactGA from 'react-ga4';
 
 import '../../../assets/scss/side-set-style.css'
 
@@ -83,6 +83,9 @@ const Result = () => {
   // const [imgSize, setImgSize] = useState({ width: '350px', height: '300px' });
 
   let imgPath = useRef('');
+
+  ReactGA.initialize(process.env.REACT_APP_GOOGLE_ANALYTICS);
+  // ReactGA.send("pageview");
 
   // const handleResize = () => {
   //   const width = window.innerWidth;
