@@ -68,21 +68,3 @@ function useScript(src) {
 }
 
 export { useScript };
-
-// Google React G4
-
-// import ReactGA from 'react-ga4'
-// export const PageviewTrigger = (router) => {
-//   ReactGA.send({
-//     hitType: 'pageview',
-//     page: router.pathname,
-//   })
-// }
-
-// export const EventTrigger = () => {
-//   ReactGA.event({
-//     action: "submit_rseult",
-//     category: "bald_predict",
-//     label: "bald_test",
-//   })
-// }
