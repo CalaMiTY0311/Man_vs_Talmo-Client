@@ -84,7 +84,7 @@ const Result = () => {
 
   let imgPath = useRef('');
 
-  ReactGA.initialize(process.env.REACT_APP_GOOGLE_ANALYTICS);
+  // ReactGA.initialize(process.env.REACT_APP_GOOGLE_ANALYTICS);
   // ReactGA.send("pageview");
 
   // const handleResize = () => {
