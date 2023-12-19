@@ -69,7 +69,7 @@ const Home = (props) => {
                         <div className="d-flex flex-column justify-content-center align-items-center h-100">
                             <h1 className="title font-14" style={{ fontSize: '2rem', textAlign: 'center' }}>🥚 Man vs 탈모😢</h1>
                             <h4 className="subtitle font-light" style={{ textAlign: 'center', fontWeight: 'bold', color: 'black' }}>
-                                8개의 질문으로         <br />
+                                8개 Q&A로         <br />
                                 자신의 탈모력을 테스트 해보고<br /> 기만또는 대비를해보아요
                             </h4>
                             <Link to="/test">
