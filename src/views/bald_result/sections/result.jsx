@@ -19,6 +19,8 @@ import not_safe_img from '../../../assets/images/bald_result_img/not_safe/img.jp
 import warning_img from '../../../assets/images/bald_result_img/warning/img.jpg';
 import bald_img from '../../../assets/images/bald_result_img/bald/img.jpg';
 
+// import ReactGA from 'react-ga4';
+
 import '../../../assets/scss/side-set-style.css'
 
 const FlexContainer = styled.div`

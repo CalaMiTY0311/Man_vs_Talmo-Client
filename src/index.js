@@ -13,11 +13,14 @@ import {
 // import CustomComponents from "./views/custom-components/custom-components.jsx";
 import Main from "./views/main/main.jsx";
 import Test from "./views/test/test.jsx";
-import Result from "./views/bald_result/bald_result.jsx"
+import Result from "./views/bald_result/bald_result.jsx";
 
-// import axios from 'axios';
-// // Axios의 전역 설정 변경
-// axios.defaults.withCredentials = true;
+// import RouteChangeTracker from "./RouteChangeTracker";
+
+import ReactGA from "react-ga4";
+
+ReactGA.initialize(process.env.REACT_APP_GOOGLE_ANALYTICS);
+ReactGA.send("pageview");
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
@@ -25,8 +28,6 @@ var hist = createBrowserHistory();
 root.render(
   <BrowserRouter history={hist}>
     <Routes>
-      {/* <Route path="/components" element={<Components />} />
-      <Route path="/custom-components" element={<CustomComponents />} /> */}
       <Route path="/" element={<Main />} />
       <Route path="/test" element={<Test/>}/>
        
