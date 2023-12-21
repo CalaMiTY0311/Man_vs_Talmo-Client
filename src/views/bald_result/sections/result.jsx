@@ -21,8 +21,6 @@ import bald_img from '../../../assets/images/bald_result_img/bald/img.jpg';
 
 import '../../../assets/scss/side-set-style.css'
 
-import ReactGA from "react-ga4";
-
 const FlexContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -81,9 +79,6 @@ const Result = () => {
   const [resultMessage, setresultMessage] = useState(null);
 
   let imgPath = useRef('');
-
-  ReactGA.initialize(process.env.REACT_APP_GOOGLE_ANALYTICS);
-  ReactGA.pageview(window.location.pathname);
 
   useEffect(() => {
     let message = ''
