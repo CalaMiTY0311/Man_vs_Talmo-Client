@@ -119,14 +119,11 @@ const BaldForm = () => {
         <Modal size="lg" show={modal} onHide={() => setModal(false)} backdrop="static" keyboard={false}>
             <ModalHeader></ModalHeader>
             <ModalBody>
-                  <p>
-                <strong>이 테스트는 Kaggle에서 수집한 데이터셋을 활용하여 머신 러닝 결과를 제공합니다.</strong> 
-                하지만, 실제 탈모 여부를 정확하게 판단하기 위해서는 여러 가지 복잡한 요인을 고려해야 합니다.
-                <strong>이 테스트는 단순한 예측 도구로써 활용되며, 정확한 진단을 위해서는 전문가와의 상담이 필요합니다. 
-                <br/><br/>따라서 이 결과를 너무 신뢰하지 말고, 단순한 테스트로 간주하시기를 권장합니다.</strong>
-              </p>
               <p>
-              <strong>또한 사용자의 정보는 수집하지 않습니다. 이 테스트는 익명의 데이터를 기반으로 하며, 개인 식별 정보는 저장되지 않습니다.</strong>
+                  <h2>이 테스트의 세줄 요약</h2><br/>
+                  <strong>1. 테스트에 있어서 입력된 너네 정보는 수집하지않으니까 예측에 영향이 가지않게 솔직하게 써줘</strong><br/><br/>
+                  <strong>2. 디자인 좀 업데이트할께 미안해... 내 옷도 못꾸며입는데 계속 업데이트해볼께..</strong><br/><br/>
+                  <strong>3. 단순 머신러닝 테스트라 실제 탈모는 여러가지 복잡한 요인이있으니까 정확한 진단은 의사에게 가보자</strong><br/><br/>
               </p>
               <BreadcrumbItem color="link" href="https://www.kaggle.com/datasets/itsnahm/baldness-probability">
                 데이터셋 출처 - (Kaggle)
@@ -154,6 +151,7 @@ const BaldForm = () => {
           {step === 2 && (
             <>
               <h1 className="title font-bold">키를 입력해주세요</h1>
+              <h6 className="subtitle">소수 첫번째 까지 입력가능</h6>
               <br/>
               <input type="number" className="input-round-box" placeholder="키" onKeyPress={handleKeyPress} value={height} onChange={(e) => setHeight(e.target.value)} />
               <br/>
@@ -169,6 +167,7 @@ const BaldForm = () => {
           {step === 3 && (
             <>
               <h1 className="title font-bold">몸무게를 입력해주세요</h1>
+              <h6 className="subtitle">소수 첫번째 까지 입력가능</h6>
               <br/>
               <input type="number" className="input-round-box" placeholder="몸무게" onKeyPress={handleKeyPress} value={weight} onChange={(e) => setWeight(e.target.value)} />
               <br/>

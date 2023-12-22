@@ -70,7 +70,7 @@ const Home = (props) => {
                             <h1 className="title font-14" style={{ fontSize: '2rem', textAlign: 'center' }}>🥚 Man vs 탈모😢</h1>
                             <h4 className="subtitle font-light" style={{ textAlign: 'center', fontWeight: 'bold', color: 'black' }}>
                                 8개 Q&A로         <br />
-                                자신의 탈모력을 테스트 해보고<br /> 기만또는 대비를해보아요
+                                현재 자신 탈모 확률을 예측하고<br />...놀려야겠지? 
                             </h4>
                             <Link to="/test">
                                 <Button type="button" color="primary" onClick={toggle.bind(null)} style={{ width: '200px', height: '50px' }}>테스트 해볼까?</Button>
