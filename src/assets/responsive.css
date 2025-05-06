@@ -1,0 +1,147 @@
+/* 모바일 최적화를 위한 추가 스타일 */
+
+/* 기본 스타일 */
+* {
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation; /* 모바일 터치 최적화 */
+}
+
+/* 작은 화면에 맞게 폰트 크기 조정 */
+@media (max-width: 640px) {
+  h1 {
+    font-size: 1.75rem !important; /* 더 작은 크기로 조정 */
+    line-height: 1.2 !important;
+  }
+  
+  h2 {
+    font-size: 1.5rem !important;
+    line-height: 1.2 !important;
+  }
+  
+  p {
+    font-size: 0.95rem !important;
+  }
+  
+  .btn {
+    font-size: 0.85rem !important;
+    padding: 0.5rem !important;
+  }
+}
+
+/* 아주 작은 화면(320px)에 대한 추가 최적화 */
+@media (max-width: 375px) {
+  h1 {
+    font-size: 1.5rem !important;
+  }
+  
+  h2 {
+    font-size: 1.25rem !important;
+  }
+  
+  p {
+    font-size: 0.875rem !important;
+  }
+  
+  .btn {
+    font-size: 0.75rem !important;
+    padding: 0.375rem !important;
+  }
+  
+  .progress-bar {
+    height: 0.375rem !important;
+  }
+  
+  /* 결과 페이지 텍스트 조정 */
+  .text-4xl {
+    font-size: 2rem !important;
+  }
+  
+  .text-xl {
+    font-size: 1.125rem !important;
+  }
+  
+  .text-base {
+    font-size: 0.875rem !important;
+  }
+  
+  .text-sm {
+    font-size: 0.75rem !important;
+  }
+  
+  .text-xs {
+    font-size: 0.7rem !important;
+  }
+}
+
+/* 입력 필드 스타일링 */
+input[type="number"] {
+  -webkit-appearance: none;
+  margin: 0;
+  font-size: 1rem;
+}
+
+/* 입력 필드 스핀 버튼 스타일링 */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* 스크롤 최적화 */
+body {
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch; /* iOS 스크롤 부드럽게 */
+}
+
+/* 세로 화면에서 적응형 높이 */
+@media (max-height: 700px) {
+  .h-64 {
+    height: 10rem !important; /* 더 작게 조정 */
+  }
+  
+  .h-32 {
+    height: 5rem !important;
+  }
+  
+  .mb-8 {
+    margin-bottom: 1.25rem !important;
+  }
+  
+  .mb-6 {
+    margin-bottom: 0.875rem !important;
+  }
+  
+  .py-3 {
+    padding-top: 0.5rem !important;
+    padding-bottom: 0.5rem !important;
+  }
+}
+
+/* iOS 사파리에서 높이 문제 해결 */
+@supports (-webkit-touch-callout: none) {
+  .min-h-screen {
+    min-height: -webkit-fill-available;
+    height: -webkit-fill-available;
+  }
+}
+
+/* 모바일 성능 최적화 */
+.transition-all {
+  will-change: transform, opacity;
+}
+
+/* 드래그 성능 향상 */
+.overflow-y-auto, .overflow-x-auto, .overflow-auto {
+  -webkit-overflow-scrolling: touch;
+}
+
+/* 모바일 터치 영역 확대 */
+button, 
+a {
+  min-height: 44px; /* 애플 가이드라인 최소 터치 영역 */
+}
+
+/* 모바일에서 테스트 버튼 영역 확보 */
+.quiz-view-buttons {
+  padding-bottom: env(safe-area-inset-bottom, 1rem);
+}

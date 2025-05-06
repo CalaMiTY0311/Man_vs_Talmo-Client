@@ -1,0 +1,9 @@
+이 폴더에 다음 파일들을 넣어주세요:
+
+1. slide1.jpg
+2. slide2.jpg
+3. slide3.jpg
+4. slide4.jpg
+
+각 이미지는 400x200 픽셀 이상 크기를 권장합니다.
+이미지는 가로 방향(landscape)이 좋습니다.
