@@ -124,11 +124,11 @@ const QuizView = () => {
   }, []);
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen p-4 sm:p-6">
+    <main className="flex flex-col items-center justify-center min-h-screen p-4 sm:p-6">
       
       {/* 진행 상태 */}
-      <div className="w-full max-w-md mb-2">
-        <div className="progress-bar">
+      <nav className="w-full max-w-md mb-2" aria-label="탈모 테스트 진행도">
+        <div className="progress-bar" role="progressbar" aria-valuenow={progress} aria-valuemin="0" aria-valuemax="100">
           <div className="progress" style={{ width: `${progress}%` }}></div>
         </div>
         <div className="flex justify-between mt-1">
@@ -137,6 +137,7 @@ const QuizView = () => {
             <button 
               onClick={prevQuestion} 
               className="text-sm flex items-center text-teal-400 hover:text-teal-500"
+              aria-label="이전 질문으로 이동"
             >
               <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-1" viewBox="0 0 20 20" fill="currentColor">
                 <path fillRule="evenodd" d="M9.707 14.707a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 1.414L7.414 9H15a1 1 0 110 2H7.414l2.293 2.293a1 1 0 010 1.414z" clipRule="evenodd" />
@@ -148,13 +149,16 @@ const QuizView = () => {
           )}
           <div className="text-sm text-gray-400">{progressText}</div>
         </div>
-      </div>
+      </nav>
       
-      <div key={transitionKey} className={`transition-all duration-500 ease-in-out ${transitionName} w-full max-w-md`}>
+      <article key={transitionKey} className={`transition-all duration-500 ease-in-out ${transitionName} w-full max-w-md`}>
         {/* 질문 */}
-        <h2 className="text-3xl font-bold mb-4 text-center text-teal-400">Q{quizStore.currentQuestionIndex + 1}.</h2>
+        <header>
+          <h2 className="text-3xl font-bold mb-4 text-center text-teal-400">Q{quizStore.currentQuestionIndex + 1}.</h2>
+        </header>
         
-        {/* 질문 이미지 */}
+        {/* 질문 이미지 - 일단 제거함 */}
+        {/*
         <div className="mb-6 flex justify-center">
           <img 
             src={`/images/questions/q${quizStore.currentQuestionIndex + 1}.jpg`} 
@@ -163,12 +167,13 @@ const QuizView = () => {
             onError={handleImageError}
           />
         </div>
+        */}
         
         <p className="text-lg mb-8 text-center">{currentQuestion.text}</p>
         
         {/* 입력 필드 (나이, 몸무게, 키) */}
         {currentQuestion.inputType === 'number' ? (
-          <div className="mb-6">
+          <section className="mb-6" aria-label="수치 입력">
             <input 
               type="number" 
               value={inputValue}
@@ -179,31 +184,34 @@ const QuizView = () => {
               placeholder={currentQuestion.placeholder}
               className="w-full px-4 py-3 rounded-lg bg-gray-900 border border-gray-700 text-white focus:outline-none focus:border-teal-400"
               onKeyPress={handleKeyPress}
+              aria-label={currentQuestion.placeholder}
             />
             <button 
               onClick={submitInput}
               className={`btn mt-4 ${!isValidInput() ? 'opacity-50 cursor-not-allowed' : ''}`}
               disabled={!isValidInput()}
+              aria-label="다음 질문으로 이동"
             >
               다음
             </button>
-          </div>
+          </section>
         ) : (
           /* 선택지 버튼 */
-          <div className="space-y-3">
+          <section className="space-y-3" aria-label="선택지">
             {currentQuestion.options.map(option => (
               <button 
                 key={option.id}
                 onClick={() => selectOption(option.id)}
                 className="btn"
+                aria-label={option.text}
               >
                 {option.text}
               </button>
             ))}
-          </div>
+          </section>
         )}
-      </div>
-    </div>
+      </article>
+    </main>
   );
 };
 
