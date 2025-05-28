@@ -2,6 +2,7 @@ import axios from 'axios';
 
 // API 기본 URL 설정 (Vite에서는 환경 변수에 import.meta.env 접두사 사용)
 const API_URL = import.meta.env.VITE_URL;
+console.log(API_URL)
 // axios 인스턴스 생성
 const apiClient = axios.create({
   baseURL: API_URL,
