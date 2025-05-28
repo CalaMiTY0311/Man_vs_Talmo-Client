@@ -1,19 +1,20 @@
 import axios from 'axios';
 
 // API 기본 URL 설정 (Vite에서는 환경 변수에 import.meta.env 접두사 사용)
-const API_URL = import.meta.env.URL;
-
+const API_URL = import.meta.env.VITE_URL;
 // axios 인스턴스 생성
 const apiClient = axios.create({
   baseURL: API_URL,
   headers: {
     'Content-Type': 'application/json',
   },
+  withCredentials: true, // CORS 설정에 맞게 추가
 });
 
 // 탈모 예측 API 호출 함수
 export const predictBaldness = async (userData) => {
   try {
+    console.log('요청 데이터:', userData);
     const response = await apiClient.post('/predict', userData);
     return response.data;
   } catch (error) {

@@ -1,66 +1,55 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback, Fragment, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { CSSTransition, SwitchTransition } from 'react-transition-group';
 import useQuizStore from '../store/quizStore';
+import { Dialog, Transition } from '@headlessui/react';
+import QuestionItem from '../components/QuestionItem';
 
+/**
+ * QuizView 컴포넌트 - 사용자에게 질문을 순차적으로 제시하는 화면
+ */
 const QuizView = () => {
+  // 상태 관리 및 네비게이션 훅
   const quizStore = useQuizStore();
   const navigate = useNavigate();
   const [inputValue, setInputValue] = useState('');
-  const [direction, setDirection] = useState(1); // 1: 다음, -1: 이전
-  const [transitionKey, setTransitionKey] = useState(0);
+  const [showModal, setShowModal] = useState(false);
+  const nodeRef = useRef(null);
 
   // 현재 질문 정보
-  const currentQuestion = quizStore.getCurrentQuestion();
-  const progress = quizStore.getProgress();
-  const progressText = quizStore.getProgressText();
-  const isLastQuestion = quizStore.isLastQuestion();
-
-  // 페이지 전환 방향에 따른 애니메이션 설정
-  const transitionName = direction > 0 ? 'slide-right' : 'slide-left';
+  const currentQuestion = quizStore.getCurrentQuestion ? quizStore.getCurrentQuestion() : null;
+  const progress = quizStore.getProgress ? quizStore.getProgress() : 0;
+  const progressText = quizStore.getProgressText ? quizStore.getProgressText() : '';
+  const isLastQuestion = quizStore.isLastQuestion ? quizStore.isLastQuestion() : false;
 
   // 입력값 유효성 검사
-  const isValidInput = () => {
-    if (!currentQuestion.inputType) return true;
+  const isValidInput = useCallback(() => {
+    if (!currentQuestion || !currentQuestion.inputType) return true;
     
     const value = Number(inputValue);
     const min = Number(currentQuestion.min);
     const max = Number(currentQuestion.max);
     
     return !isNaN(value) && value >= min && value <= max && Number.isInteger(value);
-  };
+  }, [currentQuestion, inputValue]);
 
-  // 이미지 오류 처리
-  const handleImageError = (event) => {
-    // 이미지 로드 실패 시 처리 - 이미지를 표시하지 않음
-    event.target.style.display = 'none';
-  };
-
-  // 선택지 선택 (바로 다음 질문으로 이동)
-  const selectOption = (optionId) => {
-    // 답변 저장
+  // 선택지 선택 처리
+  const selectOption = useCallback((optionId) => {
     quizStore.selectAnswer(optionId);
     
-    // 방향 설정
-    setDirection(1);
-    setTransitionKey(prev => prev + 1);
-    
-    // 마지막 질문이면 결과 페이지로 이동
     if (isLastQuestion) {
-      navigate('/result');
+      setShowModal(true);
     } else {
-      // 다음 질문으로 이동
       quizStore.nextQuestion();
     }
-  };
+  }, [quizStore, isLastQuestion]);
 
-  // 수치 입력값 제출 (나이, 몸무게, 키)
-  const submitInput = () => {
+  // 수치 입력값 제출 처리
+  const submitInput = useCallback(() => {
     if (!isValidInput()) return;
     
-    // 정수로 변환
     const value = parseInt(inputValue);
     
-    // 입력값이 유효하지 않으면 경고 표시
     if (isNaN(value)) {
       alert('유효한 정수를 입력해주세요.');
       return;
@@ -68,66 +57,49 @@ const QuizView = () => {
     
     quizStore.selectAnswer(value);
     
-    // 방향 설정
-    setDirection(1);
-    setTransitionKey(prev => prev + 1);
-    
-    // 마지막 질문이면 결과 페이지로 이동
     if (isLastQuestion) {
-      navigate('/result');
+      setShowModal(true);
     } else {
-      // 다음 질문으로 이동
       quizStore.nextQuestion();
     }
-  };
+  }, [inputValue, isValidInput, quizStore, isLastQuestion]);
 
   // Enter 키 이벤트 처리
-  const handleKeyPress = (event) => {
+  const handleKeyPress = useCallback((event) => {
     if (event.key === 'Enter' && isValidInput()) {
       submitInput();
     }
-  };
+  }, [isValidInput, submitInput]);
 
   // 이전 질문으로 이동
-  const prevQuestion = () => {
+  const prevQuestion = useCallback(() => {
     if (quizStore.currentQuestionIndex > 0) {
-      setDirection(-1);
-      setTransitionKey(prev => prev + 1);
       quizStore.prevQuestion();
     }
-  };
+  }, [quizStore]);
+  
+  // 모달 확인 버튼 처리
+  const handleModalConfirm = useCallback(() => {
+    setShowModal(false);
+    navigate('/result');
+  }, [navigate]);
 
   // 질문이 바뀔 때마다 저장된 답변 불러오기
   useEffect(() => {
     // 저장된 답변이 있는지 확인
     const savedAnswer = quizStore.answers[quizStore.currentQuestionIndex];
     
-    if (savedAnswer !== undefined) {
-      // 현재 질문 형태에 따라 입력값 설정
-      if (currentQuestion.inputType === 'number') {
-        setInputValue(savedAnswer);
-      }
+    if (savedAnswer !== undefined && currentQuestion && currentQuestion.inputType === 'number') {
+      setInputValue(savedAnswer);
     } else {
-      // 저장된 답변이 없으면 초기화
       setInputValue('');
     }
-  }, [quizStore.currentQuestionIndex, currentQuestion]);
-
-  // 초기화: 저장된 답변이 있으면 불러오기
-  useEffect(() => {
-    if (currentQuestion.inputType === 'number') {
-      const savedAnswer = quizStore.answers[quizStore.currentQuestionIndex];
-      if (savedAnswer !== undefined) {
-        setInputValue(savedAnswer);
-      }
-    }
-  }, []);
+  }, [quizStore.currentQuestionIndex, quizStore.answers, currentQuestion]);
 
   return (
-    <main className="flex flex-col items-center justify-center min-h-screen p-4 sm:p-6">
-      
+    <main className="flex flex-col items-center justify-center min-h-screen p-3 sm:p-4 bg-black mobile-compact">
       {/* 진행 상태 */}
-      <nav className="w-full max-w-md mb-2" aria-label="탈모 테스트 진행도">
+      <nav className="w-full max-w-xs sm:max-w-sm mb-2 sm:mb-4 compact-container" aria-label="탈모 테스트 진행도">
         <div className="progress-bar" role="progressbar" aria-valuenow={progress} aria-valuemin="0" aria-valuemax="100">
           <div className="progress" style={{ width: `${progress}%` }}></div>
         </div>
@@ -136,81 +108,107 @@ const QuizView = () => {
           {quizStore.currentQuestionIndex > 0 ? (
             <button 
               onClick={prevQuestion} 
-              className="text-sm flex items-center text-teal-400 hover:text-teal-500"
+              className="text-xs sm:text-sm flex items-center text-teal-400 hover:text-teal-500"
               aria-label="이전 질문으로 이동"
             >
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-1" viewBox="0 0 20 20" fill="currentColor">
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-3 w-3 mr-1" viewBox="0 0 20 20" fill="currentColor">
                 <path fillRule="evenodd" d="M9.707 14.707a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 1.414L7.414 9H15a1 1 0 110 2H7.414l2.293 2.293a1 1 0 010 1.414z" clipRule="evenodd" />
               </svg>
               뒤로
             </button>
           ) : (
-            <div className="text-sm invisible">뒤로</div>
+            <div className="text-xs sm:text-sm invisible">뒤로</div>
           )}
-          <div className="text-sm text-gray-400">{progressText}</div>
+          <div className="text-xs sm:text-sm text-gray-400">{progressText}</div>
         </div>
       </nav>
       
-      <article key={transitionKey} className={`transition-all duration-500 ease-in-out ${transitionName} w-full max-w-md`}>
-        {/* 질문 */}
-        <header>
-          <h2 className="text-3xl font-bold mb-4 text-center text-teal-400">Q{quizStore.currentQuestionIndex + 1}.</h2>
-        </header>
-        
-        {/* 질문 이미지 - 일단 제거함 */}
-        {/*
-        <div className="mb-6 flex justify-center">
-          <img 
-            src={`/images/questions/q${quizStore.currentQuestionIndex + 1}.jpg`} 
-            className="w-32 h-32 object-contain rounded-lg" 
-            alt={`질문 ${quizStore.currentQuestionIndex + 1} 이미지`}
-            onError={handleImageError}
-          />
-        </div>
-        */}
-        
-        <p className="text-lg mb-8 text-center">{currentQuestion.text}</p>
-        
-        {/* 입력 필드 (나이, 몸무게, 키) */}
-        {currentQuestion.inputType === 'number' ? (
-          <section className="mb-6" aria-label="수치 입력">
-            <input 
-              type="number" 
-              value={inputValue}
-              onChange={(e) => setInputValue(e.target.value)}
-              min={currentQuestion.min}
-              max={currentQuestion.max}
-              step={1}
-              placeholder={currentQuestion.placeholder}
-              className="w-full px-4 py-3 rounded-lg bg-gray-900 border border-gray-700 text-white focus:outline-none focus:border-teal-400"
-              onKeyPress={handleKeyPress}
-              aria-label={currentQuestion.placeholder}
-            />
-            <button 
-              onClick={submitInput}
-              className={`btn mt-4 ${!isValidInput() ? 'opacity-50 cursor-not-allowed' : ''}`}
-              disabled={!isValidInput()}
-              aria-label="다음 질문으로 이동"
-            >
-              다음
-            </button>
-          </section>
-        ) : (
-          /* 선택지 버튼 */
-          <section className="space-y-3" aria-label="선택지">
-            {currentQuestion.options.map(option => (
-              <button 
-                key={option.id}
-                onClick={() => selectOption(option.id)}
-                className="btn"
-                aria-label={option.text}
+      {/* 질문 영역 - 애니메이션 적용 */}
+      <div className="w-full max-w-xs relative" style={{ minHeight: '200px' }}>
+        <SwitchTransition mode="out-in">
+          <CSSTransition
+            key={quizStore.currentQuestionIndex}
+            timeout={300}
+            classNames="question-slide"
+            nodeRef={nodeRef}
+          >
+            <div ref={nodeRef} className="question-container">
+              {currentQuestion && (
+                <QuestionItem
+                  question={currentQuestion}
+                  index={quizStore.currentQuestionIndex}
+                  inputValue={inputValue}
+                  setInputValue={setInputValue}
+                  handleKeyPress={handleKeyPress}
+                  isValidInput={isValidInput}
+                  submitInput={submitInput}
+                  selectOption={selectOption}
+                />
+              )}
+            </div>
+          </CSSTransition>
+        </SwitchTransition>
+      </div>
+
+      {/* 참고사항 모달 - Headless UI Dialog 사용 */}
+      <Transition appear show={showModal} as={Fragment}>
+        <Dialog as="div" className="relative z-50" onClose={() => {}}>
+          <Transition.Child
+            as={Fragment}
+            enter="ease-out duration-300"
+            enterFrom="opacity-0"
+            enterTo="opacity-100"
+            leave="ease-in duration-200"
+            leaveFrom="opacity-100"
+            leaveTo="opacity-0"
+          >
+            <div className="fixed inset-0 bg-black bg-opacity-80" />
+          </Transition.Child>
+
+          <div className="fixed inset-0 overflow-y-auto">
+            <div className="flex min-h-full items-center justify-center p-3 sm:p-4 text-center">
+              <Transition.Child
+                as={Fragment}
+                enter="ease-out duration-300"
+                enterFrom="opacity-0 scale-95"
+                enterTo="opacity-100 scale-100"
+                leave="ease-in duration-200"
+                leaveFrom="opacity-100 scale-100"
+                leaveTo="opacity-0 scale-95"
               >
-                {option.text}
-              </button>
-            ))}
-          </section>
-        )}
-      </article>
+                <Dialog.Panel className="w-full max-w-xs sm:max-w-sm transform overflow-hidden rounded-lg bg-gray-800 p-4 sm:p-6 text-left align-middle shadow-xl transition-all">
+                  <Dialog.Title
+                    as="h3"
+                    className="text-lg font-bold mb-3 text-teal-400"
+                  >
+                    탈모 검사 참고사항
+                  </Dialog.Title>
+                  <div className="space-y-3">
+                    <p className="text-sm">이 탈모 테스트는 다음과 같은 사항을 참고해주세요:</p>
+                    <ul className="list-disc pl-5 space-y-1 text-sm">
+                      <li>이 검사는 AI 모델을 통한 통계적 분석이며, 정확한 진단이 아닙니다.</li>
+                      <li>보다 정확한 진단을 위해서는 전문 의사와 상담하시기 바랍니다.</li>
+                      <li>이 검사는 중증의 탈모 발견에 대한 도구가 아니며, 탈모 발생 가능성을 추정하는 모델입니다.</li>
+                      <li>결과는 유전적 요인, 스트레스, 식이요법, 생활습관 등의 정보를 토대로 예측합니다.</li>
+                    </ul>
+                    <p className="mt-3 text-sm">계속해서 결과를 확인하시겠습니까?</p>
+                  </div>
+
+                  <div className="mt-4 flex justify-center">
+                    <button
+                      type="button"
+                      className="bg-teal-500 hover:bg-teal-600 text-white py-2 px-4 rounded-lg text-sm font-medium transition-colors"
+                      onClick={handleModalConfirm}
+                    >
+                      확인하고 결과 보기
+                    </button>
+                  </div>
+                </Dialog.Panel>
+              </Transition.Child>
+            </div>
+          </div>
+        </Dialog>
+      </Transition>
     </main>
   );
 };

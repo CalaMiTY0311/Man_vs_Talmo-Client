@@ -8,18 +8,18 @@ import ResultView from './pages/ResultView';
 function App() {
   const location = useLocation();
   const nodeRef = useRef(null);
-
+  
   return (
-    <div className="quiz-container min-h-screen flex flex-col relative overflow-visible">
+    <div className="quiz-container min-h-screen flex flex-col relative overflow-hidden">
       <TransitionGroup component={null}>
         <CSSTransition
-          key={location.pathname}
-          timeout={500}
-          classNames="slide-right"
-          unmountOnExit
+          key={location.key}
+          classNames="slide"
+          timeout={300}
           nodeRef={nodeRef}
+          appear={true}
         >
-          <div ref={nodeRef} className="page">
+          <div ref={nodeRef} className="page-transition-container">
             <Routes location={location}>
               <Route path="/" element={<IntroView />} />
               <Route path="/q" element={<QuizView />} />
