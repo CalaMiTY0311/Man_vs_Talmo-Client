@@ -1,6 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import useQuizStore from '../store/quizStore';
+import { predictBaldness } from '../services/api';
 
 const IntroView = () => {
   const quizStore = useQuizStore();
@@ -19,6 +20,31 @@ const IntroView = () => {
   const startQuiz = () => {
     quizStore.resetQuiz();
     navigate('/q');
+  };
+
+  // 테스트 API 호출
+  const testAPI = async () => {
+    try {
+      console.log('테스트 API 호출 시작...');
+      
+      const testData = {
+        "age": "30+",
+        "gender": "male",
+        "is_hereditary": "Yes",
+        "stress": "Level 3",
+        "is_married": "No",
+        "height": 174.0,
+        "weight": 75.0,
+        "is_smoker": "No"
+      };
+      
+      const result = await predictBaldness(testData);
+      console.log('테스트 성공:', result);
+      alert(`테스트 성공!\n결과: ${result.data?.prediction}\n확률: ${result.data?.Low_probability}% (Low), ${result.data?.High_probability}% (High)`);
+    } catch (error) {
+      console.error('테스트 실패:', error);
+      alert('테스트 실패: ' + error.message);
+    }
   };
 
   return (
@@ -46,13 +72,22 @@ const IntroView = () => {
       </section>
       
       {/* 시작 버튼 */}
-      <div className="w-full max-w-xs px-2">
+      <div className="w-full max-w-xs px-2 space-y-2">
         <button 
           onClick={startQuiz} 
           className="btn h-10 text-xs font-bold"
           aria-label="탈모 확률 검사 시작"
         >
           탈모 확률 검사 시작
+        </button>
+        
+        {/* 테스트 API 버튼 */}
+        <button 
+          onClick={testAPI} 
+          className="w-full bg-gray-700 hover:bg-gray-600 text-white h-10 text-xs font-bold rounded-lg transition-colors"
+          aria-label="API 테스트"
+        >
+          API 테스트 (개발용)
         </button>
       </div>
       

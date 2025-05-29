@@ -9,7 +9,7 @@ const apiClient = axios.create({
   headers: {
     'Content-Type': 'application/json',
   },
-  withCredentials: true, // CORS 설정에 맞게 추가
+  // withCredentials: true, // CORS 설정에 맞게 추가 - 제거하여 OPTIONS 요청 방지
 });
 
 // 탈모 예측 API 호출 함수
