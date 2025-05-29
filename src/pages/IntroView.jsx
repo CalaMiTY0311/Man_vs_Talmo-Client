@@ -38,11 +38,36 @@ const IntroView = () => {
         "is_smoker": "No"
       };
       
-      const result = await predictBaldness(testData);
+      console.log('전송할 데이터:', testData);
+      console.log('요청 URL:', 'https://manvstalmo.p-e.kr/predict');
+      
+      // fetch 사용 (axios 대신)
+      const response = await fetch('https://manvstalmo.p-e.kr/predict', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(testData)
+      });
+      
+      console.log('응답 상태:', response.status);
+      console.log('응답 ok:', response.ok);
+      
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      
+      const result = await response.json();
       console.log('테스트 성공:', result);
       alert(`테스트 성공!\n결과: ${result.data?.prediction}\n확률: ${result.data?.Low_probability}% (Low), ${result.data?.High_probability}% (High)`);
+      
     } catch (error) {
       console.error('테스트 실패:', error);
+      console.error('에러 상세:', {
+        message: error.message,
+        name: error.name,
+        stack: error.stack
+      });
       alert('테스트 실패: ' + error.message);
     }
   };
